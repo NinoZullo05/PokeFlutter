@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'views/home_page.dart';
+// import 'utils/palette.dart';
+// import 'utils/theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,13 +14,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const Scaffold(), // TODO : Modificare qua per inserire la nuova pagina.
+    return ScreenUtilInit(
+      designSize: const Size(360, 979),
+      minTextAdapt: true,
+      builder: (context, child) {
+        return const MaterialApp(
+          title: 'Flutter Demo',
+          //theme: pokeFlutterTheme,
+          home: HomePage(),
+        );
+      },
     );
   }
 }

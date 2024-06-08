@@ -1,12 +1,19 @@
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:io';
 
-Future<Map<String, dynamic>> fetchPokemon(String name) async {
-  final response = await http.get(Uri.parse('https://pokeapi.co/api/v2/pokemon/$name'));
+import 'package:http/http.dart' as http;
 
-  if (response.statusCode == 200) {
-    return jsonDecode(response.body);
-  } else {
-    throw Exception('Failed to load pokemon');
+import '../Models/pokemon.dart';
+
+class PokemonApi {
+  static Future<Pokemon?> getPokemonDetails(String name) async {
+    try {
+      final url = Uri.parse("https://pokeapi.co/api/v2/pokemon/$name");
+      final response = await http.get(url);
+      final decoded = jsonDecode(response.body) as Map<String, dynamic>;
+      return Pokemon.fromJson(decoded);
+    } catch (e) {
+      throw HttpException(e.toString());
+    }
   }
 }
