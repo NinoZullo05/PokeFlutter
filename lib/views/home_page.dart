@@ -13,7 +13,7 @@ import 'widgets/random_floating_button.dart';
 import 'widgets/bottom_nav_bar.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -21,6 +21,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<PokemonListItem> pokemonList = [];
+  final List<PokemonListItem> filteredPokemonList = [];
+  final TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
@@ -36,7 +38,24 @@ class _HomePageState extends State<HomePage> {
           PokemonListItem(name: item["name"], url: item["url"]);
       pokemonList.add(pokemonListItem);
     }
-    setState(() {});
+    setState(() {
+      filteredPokemonList.addAll(pokemonList);
+    });
+  }
+
+  void searchPokemon(String query) {
+    setState(() {
+      if (query.isEmpty) {
+        // Se la query è vuota, visualizza l'intera lista
+        filteredPokemonList.clear();
+        filteredPokemonList.addAll(pokemonList);
+      } else {
+        // Altrimenti, filtra la lista in base alla query
+        filteredPokemonList.clear();
+        filteredPokemonList.addAll(pokemonList.where((pokemon) =>
+            pokemon.name.toLowerCase().contains(query.toLowerCase())));
+      }
+    });
   }
 
   @override
@@ -46,34 +65,43 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       floatingActionButton: const RandomFloatingButton(),
       bottomNavigationBar: const BottomNavBar(selectedIndex: 0),
-      body: Column(children: [
-        Container(
-            alignment: Alignment.centerLeft,
-            padding: EdgeInsets.only(top: 76.h, left: 24.w, right: 24.w),
-            child: StyledText(
-              text: "Pokédex",
-              style: textTheme.displaySmall!,
-              textHeight: 44,
-            )),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 24.w),
-          child: Text(
-            "Use the advanced search to find Pokémon by type, weakness, ability and more!",
-            style: textTheme.bodyLarge
-                ?.copyWith(color: gray[400], height: (24 / 16)),
-          ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              alignment: Alignment.centerLeft,
+              padding: EdgeInsets.only(top: 76.h, left: 24.w, right: 24.w),
+              child: StyledText(
+                text: "Pokédex",
+                style: textTheme.displaySmall!,
+                textHeight: 44,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.w),
+              child: Text(
+                "Use the advanced search to find Pokémon by type, weakness, ability and more!",
+                style: textTheme.bodyLarge
+                    ?.copyWith(color: gray[400], height: (24 / 16)),
+              ),
+            ),
+            SizedBox(
+              height: 16.h,
+            ),
+            SearchBarF(
+              searchController: searchController,
+              onSearch: searchPokemon,
+            ),
+            SizedBox(
+              height: 16.h,
+            ),
+            PokemonList(
+              pokemonList: filteredPokemonList,
+            ),
+          ],
         ),
-        SizedBox(
-          height: 16.h,
-        ),
-        const SearchBarF(),
-         SizedBox(
-          height: 16.h,
-        ),
-        PokemonList(
-          pokemonList: pokemonList,
-        ),
-      ]),
+      ),
     );
   }
 }

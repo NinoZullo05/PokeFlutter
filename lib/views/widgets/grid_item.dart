@@ -45,55 +45,63 @@ class _GridItemState extends State<GridItem> {
         : InkWell(
             onTap: () {},
             child: Container(
-              height: 500.r, // qui
+              height: 500.r, // Altezza modificata
               decoration: BoxDecoration(
-                  color: pokemonColor,
-                  borderRadius: BorderRadius.circular(16.r)),
-              child: Stack(children: [
-                Positioned(
-                  bottom: -20.r,
-                  right: -11.r,
-                  child: SvgPicture.asset(
-                    "assets/pokeball.svg",
-                    height: 88.r,
-                    width: 88.r,
-                    color: Colors.white12,
+                color: pokemonColor,
+                borderRadius: BorderRadius.circular(16.r),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    bottom: -20.r,
+                    right: -11.r,
+                    child: SvgPicture.asset(
+                      "assets/pokeball.svg",
+                      height: 88.r,
+                      width: 88.r,
+                      color: Colors.white12,
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(12.r),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _header(context),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: typesList(pokemon!),
+                  Padding(
+                    padding: EdgeInsets.all(12.r),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _header(context),
+                        const SizedBox(height: 4),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: typesList(pokemon!),
+                                    ),
+                                    SizedBox(
+                                      height: 65.r,
+                                      width: 65.r,
+                                      child: Image.network(
+                                        pokemon!.urlSprite,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
-                            SizedBox(
-                              height: 56.r,
-                              width: 56.r,
-                              child: Image.network(
-                                pokemon!.urlSprite,
-                                fit: BoxFit.cover,
-                              ),
-                            )
-                          ],
+                          ),
                         ),
-                      )
-                    ],
+                      ],
+                    ),
                   ),
-                )
-              ]),
+                ],
+              ),
             ),
           );
   }

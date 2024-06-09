@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../Utils/palette.dart';
+class SearchBarF extends StatefulWidget {
+  const SearchBarF({
+    super.key,
+    required this.searchController,
+    required this.onSearch,
+  });
 
-class SearchBarF extends StatelessWidget {
-  const SearchBarF({super.key});
+  final TextEditingController searchController;
+  final Function(String) onSearch;
 
+  @override
+  _SearchBarFState createState() => _SearchBarFState();
+}
+
+class _SearchBarFState extends State<SearchBarF> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,8 +32,8 @@ class SearchBarF extends StatelessWidget {
   }
 
   Container filterButton() => Container(
-        height: 48.r,
-        width: 48.r,
+        height: 48.sp,
+        width: 48.sp,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16.r),
           color: gray[200],
@@ -36,15 +46,14 @@ class SearchBarF extends StatelessWidget {
       );
 
   Container searchBar(BuildContext context) => Container(
-        height: 48 ,
-        width: 256.w,
+        height: 48.sp,
+        width: 256.sp,
         decoration: BoxDecoration(
           border: Border.all(width: 1.w, color: gray[200]!),
           borderRadius: BorderRadius.circular(16.r),
         ),
         padding: EdgeInsets.symmetric(
           horizontal: 16.w,
-          vertical: 12 ,
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -57,14 +66,29 @@ class SearchBarF extends StatelessWidget {
             SizedBox(
               width: 10.w,
             ),
-            Text(
-              "Search a pokémon",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge
-                  ?.copyWith(color: gray[300], fontSize: 12.sp),
+            Expanded(
+              child: TextField(
+                controller: widget.searchController,
+                onChanged: (query) {
+                  widget.onSearch(query);
+                },
+                onSubmitted: (query) {
+                  widget.onSearch(query);
+                },
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: "Search a pokémon",
+                  hintStyle: Theme.of(context)
+                      .textTheme
+                      .bodyLarge
+                      ?.copyWith(color: gray[300], fontSize: 12.sp),
+                ),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge
+                    ?.copyWith(color: Colors.black, fontSize: 12.sp),
+              ),
             ),
-            
           ],
         ),
       );
