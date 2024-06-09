@@ -45,7 +45,7 @@ class _GridItemState extends State<GridItem> {
         : InkWell(
             onTap: () {},
             child: Container(
-              height: 500.r,  // qui
+              height: 500.r, // qui
               decoration: BoxDecoration(
                   color: pokemonColor,
                   borderRadius: BorderRadius.circular(16.r)),

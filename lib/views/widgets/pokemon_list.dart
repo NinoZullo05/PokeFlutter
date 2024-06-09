@@ -12,7 +12,7 @@ class PokemonList extends StatelessWidget {
     final deviceSize = MediaQuery.of(context).size;
 
     return Container(
-      height: deviceSize.height * 0.6,
+      height: deviceSize.height * 0.55,
       padding: EdgeInsets.symmetric(horizontal: 24.w),
       child: GridView.builder(
         itemCount: pokemonList.length,
@@ -20,7 +20,7 @@ class PokemonList extends StatelessWidget {
           crossAxisCount: 2,
           crossAxisSpacing: 8.r,
           mainAxisSpacing: 8.r,
-          mainAxisExtent: deviceSize.height*0.135, 
+          mainAxisExtent: deviceSize.height*0.128, 
         ),
         itemBuilder: (BuildContext context, int index) {
           return GridItem(pokemon: pokemonList[index]);

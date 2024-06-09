@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       floatingActionButton: const RandomFloatingButton(),
-      bottomNavigationBar: const BottomNavBar(),
+      bottomNavigationBar: const BottomNavBar(selectedIndex: 0),
       body: Column(children: [
         Container(
             alignment: Alignment.centerLeft,
@@ -67,6 +67,9 @@ class _HomePageState extends State<HomePage> {
           height: 16.h,
         ),
         const SearchBarF(),
+         SizedBox(
+          height: 16.h,
+        ),
         PokemonList(
           pokemonList: pokemonList,
         ),
