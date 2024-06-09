@@ -20,7 +20,7 @@ class RandomFloatingButton extends StatelessWidget {
       label: StyledText(
         text: "Random",
         style: Theme.of(context).textTheme.labelLarge!,
-        textHeight: 20.h,
+        textHeight: 20, // FIX
       ),
       onPressed: () {
         print("Random button pressed!");

@@ -9,7 +9,6 @@ import 'package:myapp/Utils/pokemon_type_color.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:myapp/views/widgets/top_text.dart';
 
-
 class GridItem extends StatefulWidget {
   final PokemonListItem pokemon;
   const GridItem({super.key, required this.pokemon});
@@ -46,6 +45,7 @@ class _GridItemState extends State<GridItem> {
         : InkWell(
             onTap: () {},
             child: Container(
+              height: 500.r,  // qui
               decoration: BoxDecoration(
                   color: pokemonColor,
                   borderRadius: BorderRadius.circular(16.r)),
@@ -67,26 +67,28 @@ class _GridItemState extends State<GridItem> {
                     children: [
                       _header(context),
                       const SizedBox(
-                        height: 4 ,
+                        height: 4,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: typesList(pokemon!),
-                          ),
-                          SizedBox(
-                            height: 56.r,
-                            width: 56.r,
-                            child: Image.network(
-                              pokemon!.urlSprite,
-                              fit: BoxFit.cover,
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: typesList(pokemon!),
                             ),
-                          )
-                        ],
+                            SizedBox(
+                              height: 56.r,
+                              width: 56.r,
+                              child: Image.network(
+                                pokemon!.urlSprite,
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          ],
+                        ),
                       )
                     ],
                   ),
@@ -101,7 +103,7 @@ class _GridItemState extends State<GridItem> {
     for (var i = 0; i < pokemon.typesList.length; i++) {
       if (i >= 1) {
         typesList.add(const SizedBox(
-          height: 4 ,
+          height: 4,
         ));
       }
       typesList.add(
@@ -110,8 +112,7 @@ class _GridItemState extends State<GridItem> {
             color: gray[500]?.withOpacity(0.2),
             borderRadius: BorderRadius.circular(24.r),
           ),
-          padding:
-              EdgeInsets.only(left: 2.w, top: 2 , bottom: 2 , right: 8.w),
+          padding: EdgeInsets.only(left: 2.w, top: 2, bottom: 2, right: 8.w),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -130,7 +131,7 @@ class _GridItemState extends State<GridItem> {
                     .textTheme
                     .labelSmall!
                     .copyWith(color: Colors.white),
-                textHeight: 16 ,
+                textHeight: 16,
                 text: pokemon.typesList[i].capitalize(),
               )
             ],
@@ -151,14 +152,14 @@ class _GridItemState extends State<GridItem> {
               .bodySmall!
               .copyWith(color: Colors.white),
           text: pokemon?.name.capitalize(),
-          textHeight: 16 ,
+          textHeight: 16,
         ),
         StyledText(
           style: Theme.of(context).textTheme.bodySmall!.copyWith(
                 color: Colors.white,
               ),
           text: "#${pokemon?.id.toString().padLeft(3, "0")}",
-          textHeight: 16 ,
+          textHeight: 16,
         ),
       ],
     );

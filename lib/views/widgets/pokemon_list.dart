@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myapp/Models/pokemon_list_item.dart';
 import 'grid_item.dart';
 
-
 class PokemonList extends StatelessWidget {
   final List<PokemonListItem> pokemonList;
   const PokemonList({super.key, required this.pokemonList});
@@ -13,19 +12,20 @@ class PokemonList extends StatelessWidget {
     final deviceSize = MediaQuery.of(context).size;
 
     return Container(
-      height: 532.h,
+      height: deviceSize.height * 0.6,
       padding: EdgeInsets.symmetric(horizontal: 24.w),
       child: GridView.builder(
-          itemCount: pokemonList.length,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 8.r,
-            mainAxisSpacing: 8.r,
-            mainAxisExtent: 100.h,
-          ),
-          itemBuilder: (BuildContext context, int index) {
-            return GridItem(pokemon: pokemonList[index]);
-          }),
+        itemCount: pokemonList.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 8.r,
+          mainAxisSpacing: 8.r,
+          mainAxisExtent: deviceSize.height*0.135, 
+        ),
+        itemBuilder: (BuildContext context, int index) {
+          return GridItem(pokemon: pokemonList[index]);
+        },
+      ),
     );
   }
 }

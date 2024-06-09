@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myapp/Models/pokemon_list_item.dart';
 import 'package:myapp/Utils/palette.dart';
+import 'package:myapp/views/widgets/search_bar.dart';
 import 'package:myapp/views/widgets/top_text.dart';
 
 import 'widgets/pokemon_list.dart';
@@ -65,10 +66,7 @@ class _HomePageState extends State<HomePage> {
         SizedBox(
           height: 16.h,
         ),
-        const SearchBar(),
-        SizedBox(
-          height: 24.h,
-        ),
+        const SearchBarF(),
         PokemonList(
           pokemonList: pokemonList,
         ),
