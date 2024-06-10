@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,7 +6,6 @@ import 'package:myapp/Models/pokemon_list_item.dart';
 import 'package:myapp/Utils/palette.dart';
 import 'package:myapp/views/widgets/search_bar.dart';
 import 'package:myapp/views/widgets/top_text.dart';
-
 import 'widgets/pokemon_list.dart';
 import 'widgets/random_floating_button.dart';
 import 'widgets/bottom_nav_bar.dart';
@@ -26,8 +24,16 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    readJsonFile();
     super.initState();
+    readJsonFile();
+    searchController.addListener(_onSearchChanged);
+  }
+
+  @override
+  void dispose() {
+    searchController.removeListener(_onSearchChanged);
+    searchController.dispose();
+    super.dispose();
   }
 
   void readJsonFile() async {
@@ -43,17 +49,22 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void _onSearchChanged() {
+    if (searchController.text.isNotEmpty) {
+      searchPokemon(searchController.text);
+    }
+  }
+
   void searchPokemon(String query) {
     setState(() {
-      if (query.isEmpty) {
-        // Se la query è vuota, visualizza l'intera lista
-        filteredPokemonList.clear();
-        filteredPokemonList.addAll(pokemonList);
+      filteredPokemonList.clear();
+      if (query.isNotEmpty) {
+        final filtered = pokemonList.where((pokemon) {
+          return pokemon.name.toLowerCase().contains(query.toLowerCase());
+        }).toList();
+        filteredPokemonList.addAll(filtered);
       } else {
-        // Altrimenti, filtra la lista in base alla query
-        filteredPokemonList.clear();
-        filteredPokemonList.addAll(pokemonList.where((pokemon) =>
-            pokemon.name.toLowerCase().contains(query.toLowerCase())));
+        filteredPokemonList.addAll(pokemonList);
       }
     });
   }
@@ -91,7 +102,6 @@ class _HomePageState extends State<HomePage> {
             ),
             SearchBarF(
               searchController: searchController,
-              onSearch: searchPokemon,
             ),
             SizedBox(
               height: 16.h,

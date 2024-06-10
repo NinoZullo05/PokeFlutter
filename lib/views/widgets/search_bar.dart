@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../Utils/palette.dart';
+
 class SearchBarF extends StatefulWidget {
   const SearchBarF({
     super.key,
     required this.searchController,
-    required this.onSearch,
   });
 
   final TextEditingController searchController;
-  final Function(String) onSearch;
 
   @override
   _SearchBarFState createState() => _SearchBarFState();
@@ -69,15 +68,9 @@ class _SearchBarFState extends State<SearchBarF> {
             Expanded(
               child: TextField(
                 controller: widget.searchController,
-                onChanged: (query) {
-                  widget.onSearch(query);
-                },
-                onSubmitted: (query) {
-                  widget.onSearch(query);
-                },
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: "Search a pokémon",
+                  hintText: "Search a Pokémon",
                   hintStyle: Theme.of(context)
                       .textTheme
                       .bodyLarge
@@ -87,6 +80,14 @@ class _SearchBarFState extends State<SearchBarF> {
                     .textTheme
                     .bodyLarge
                     ?.copyWith(color: Colors.black, fontSize: 12.sp),
+                onChanged: (text) {
+                  widget.searchController.value = widget.searchController.value.copyWith(
+                    text: text,
+                    selection: TextSelection.fromPosition(
+                      TextPosition(offset: text.length),
+                    ),
+                  );
+                },
               ),
             ),
           ],
