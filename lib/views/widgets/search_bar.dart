@@ -30,17 +30,20 @@ class _SearchBarFState extends State<SearchBarF> {
     );
   }
 
-  Container filterButton() => Container(
-        height: 48.sp,
-        width: 48.sp,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16.r),
-          color: gray[200],
-        ),
-        alignment: Alignment.center,
-        child: Icon(
-          Icons.filter_alt_outlined,
-          size: 24.r,
+  InkWell filterButton() => InkWell(
+        onTap: () => _openFilterPopup(context),
+        child: Container(
+          height: 48.sp,
+          width: 48.sp,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16.r),
+            color: gray[200],
+          ),
+          alignment: Alignment.center,
+          child: Icon(
+            Icons.filter_alt_outlined,
+            size: 24.r,
+          ),
         ),
       );
 
@@ -81,7 +84,8 @@ class _SearchBarFState extends State<SearchBarF> {
                     .bodyLarge
                     ?.copyWith(color: Colors.black, fontSize: 12.sp),
                 onChanged: (text) {
-                  widget.searchController.value = widget.searchController.value.copyWith(
+                  widget.searchController.value =
+                      widget.searchController.value.copyWith(
                     text: text,
                     selection: TextSelection.fromPosition(
                       TextPosition(offset: text.length),
@@ -93,4 +97,44 @@ class _SearchBarFState extends State<SearchBarF> {
           ],
         ),
       );
+}
+
+void _openFilterPopup(context) {
+  showModalBottomSheet(
+    context: context,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
+    ),
+    builder: (BuildContext bc) {
+      return SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: Padding(
+          padding: EdgeInsets.all(16.w),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Filters",
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              SizedBox(height: 16.h),
+              TextButton(
+                onPressed: () {},
+                child: const Text("Test 1"),
+              ),
+              TextButton(
+                onPressed: () {},
+                child: const Text("Test 2"),
+              ),
+              TextButton(
+                onPressed: () {},
+                child: const Text("Test 3"),
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }

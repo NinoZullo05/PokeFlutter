@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:myapp/Utils/theme.dart';
 
 import 'views/home_page.dart';
 // import 'utils/palette.dart';
-// import 'utils/theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,9 +18,9 @@ class MyApp extends StatelessWidget {
       designSize: const Size(360, 979),
       minTextAdapt: true,
       builder: (context, child) {
-        return const MaterialApp(
+        return MaterialApp(
           title: 'Flutter Demo',
-          //theme: pokeFlutterTheme,
+          theme: pokeFlutterTheme,
           home: HomePage(),
         );
       },
