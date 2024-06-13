@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           title: 'Flutter Demo',
           theme: pokeFlutterTheme,
-          home: HomePage(),
+          home: const HomePage(),
         );
       },
     );
