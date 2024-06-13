@@ -43,6 +43,7 @@ class _FilterPopupState extends State<FilterPopup> {
   int _currentHeightValue = 170;
   List<bool> selectedTypes = List<bool>.filled(18, false);
   List<bool> selectedWeaknesses = List<bool>.filled(18, false);
+  String _orderBy = 'A-Z'; // Default value for ordering
 
   @override
   Widget build(BuildContext context) {
@@ -236,10 +237,11 @@ class _FilterPopupState extends State<FilterPopup> {
                     "Weight",
                     style: Theme.of(context).textTheme.labelLarge,
                   ),
-                  const Spacer(),
+                  Spacer(),
                   Text(
-                      "${_currentWeightValue.toStringAsFixed(1)} kg", // Show weight with one decimal place
-                      style: Theme.of(context).textTheme.bodyMedium),
+                    "${_currentWeightValue.toStringAsFixed(1)} kg", // Show weight with one decimal place
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
                 ],
               ),
               SizedBox(height: 16.h),
@@ -267,13 +269,14 @@ class _FilterPopupState extends State<FilterPopup> {
                   },
                 ),
               ),
+              SizedBox(height: 16.h),
               Row(
                 children: [
                   Text(
                     "Height",
                     style: Theme.of(context).textTheme.labelLarge,
                   ),
-                  const Spacer(),
+                  Spacer(),
                   Text(
                     "$_currentHeightValue cm",
                     style: Theme.of(context).textTheme.bodyMedium,
@@ -289,7 +292,7 @@ class _FilterPopupState extends State<FilterPopup> {
                   overlayColor: Colors.yellow.withOpacity(0.2),
                   valueIndicatorColor: Colors.yellow,
                   valueIndicatorTextStyle: TextStyle(
-                    color: gray[5000],
+                    color: gray[500],
                   ),
                 ),
                 child: Slider(
@@ -304,6 +307,42 @@ class _FilterPopupState extends State<FilterPopup> {
                     });
                   },
                 ),
+              ),
+              SizedBox(height: 16.h),
+              Row(
+                children: [
+                  Text(
+                    "Order",
+                    style: Theme.of(context).textTheme.labelLarge,
+                  ),
+                  const Spacer(),
+                  SizedBox(
+                    width: 150.w,
+                    child: DropdownButton<String>(
+                      value: _orderBy,
+                      icon: Icon(Icons.arrow_drop_down),
+                      iconSize: 24,
+                      elevation: 16,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      underline: Container(
+                        height: 2,
+                        color: Colors.yellow,
+                      ),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          _orderBy = newValue!;
+                        });
+                      },
+                      items: <String>['A-Z', 'Z-A']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      },).toList(),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
