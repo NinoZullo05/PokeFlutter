@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myapp/Utils/theme.dart';
 
 import 'views/home_page.dart';
-// import 'utils/palette.dart';
 
 void main() {
   runApp(const MyApp());

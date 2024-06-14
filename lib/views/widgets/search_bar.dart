@@ -7,9 +7,9 @@ import 'dart:convert';
 
 class SearchBarF extends StatefulWidget {
   const SearchBarF({
-    super.key,
+    Key? key,
     required this.searchController,
-  });
+  }) : super(key: key);
 
   final TextEditingController searchController;
 
@@ -107,12 +107,12 @@ class _SearchBarFState extends State<SearchBarF> {
                   hintText: "Search a Pokémon",
                   hintStyle: Theme.of(context)
                       .textTheme
-                      .bodyLarge
+                      .labelLarge
                       ?.copyWith(color: gray[300], fontSize: 12.sp),
                 ),
                 style: Theme.of(context)
                     .textTheme
-                    .bodyLarge
+                    .labelLarge
                     ?.copyWith(color: Colors.black, fontSize: 12.sp),
                 onChanged: (text) {
                   widget.searchController.value =
@@ -132,6 +132,7 @@ class _SearchBarFState extends State<SearchBarF> {
   void _openFilterPopup(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(32.r)),
       ),
@@ -143,6 +144,11 @@ class _SearchBarFState extends State<SearchBarF> {
             setState(() {
               selectedGenerations[index] = !selectedGenerations[index];
             });
+          },
+          onOrderByChanged: (newValue) {
+            print('Order By changed to: $newValue');
+
+            // TODO FIX THE DOUBLE LAYER POPUP 
           },
         );
       },
