@@ -7,6 +7,7 @@ import 'package:myapp/Utils/palette.dart';
 import 'package:myapp/Utils/pokemon_api.dart';
 import 'package:myapp/Utils/pokemon_type_color.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:myapp/views/widgets/pokemon_information.dart';
 import 'package:myapp/views/widgets/top_text.dart';
 
 class GridItem extends StatefulWidget {
@@ -43,7 +44,14 @@ class _GridItemState extends State<GridItem> {
             child: CircularProgressIndicator(),
           )
         : InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PokemonInformation(pokemon: pokemon!),
+                ),
+              );
+            },
             child: Container(
               height: 500.r, // Altezza modificata
               decoration: BoxDecoration(
