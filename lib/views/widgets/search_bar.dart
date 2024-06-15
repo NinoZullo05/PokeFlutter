@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:myapp/views/widgets/filter/filter_popup.dart';
+import 'package:myapp/views/widgets/filter/filter_popup.dart'; // Importa il nuovo widget FilterContent
 import '../../Utils/palette.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -136,22 +136,25 @@ class _SearchBarFState extends State<SearchBarF> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(32.r)),
       ),
-      builder: (BuildContext bc) {
-        return FilterPopup(
+      builder: (context) {
+        return FilterContent(
           generations: generations,
           selectedGenerations: selectedGenerations,
-          onGenerationSelected: (index) {
-            setState(() {
-              selectedGenerations[index] = !selectedGenerations[index];
-            });
-          },
-          onOrderByChanged: (newValue) {
-            print('Order By changed to: $newValue');
-
-            // TODO FIX THE DOUBLE LAYER POPUP 
-          },
+          onGenerationSelected: _handleGenerationSelected,
+          onOrderByChanged: _handleOrderByChanged,
         );
       },
     );
+  }
+
+  void _handleGenerationSelected(int index) {
+    setState(() {
+      selectedGenerations[index] = !selectedGenerations[index];
+    });
+  }
+
+  void _handleOrderByChanged(String newValue) {
+    print('Order By changed to: $newValue');
+    // Implement your logic for handling order by change here
   }
 }

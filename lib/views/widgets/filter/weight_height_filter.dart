@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:myapp/Utils/palette.dart';
 
 class FilterPopupWeightAndHeight extends StatefulWidget {
   const FilterPopupWeightAndHeight({super.key});
@@ -40,7 +41,7 @@ class _FilterPopupWeightAndHeightState extends State<FilterPopupWeightAndHeight>
             overlayColor: Colors.yellow.withOpacity(0.2),
             valueIndicatorColor: Colors.yellow,
             valueIndicatorTextStyle: TextStyle(
-              color: Colors.grey[500],
+              color: gray[500],
             ),
           ),
           child: Slider(
@@ -79,7 +80,7 @@ class _FilterPopupWeightAndHeightState extends State<FilterPopupWeightAndHeight>
             overlayColor: Colors.yellow.withOpacity(0.2),
             valueIndicatorColor: Colors.yellow,
             valueIndicatorTextStyle: TextStyle(
-              color: Colors.grey[500],
+              color: gray[500],
             ),
           ),
           child: Slider(

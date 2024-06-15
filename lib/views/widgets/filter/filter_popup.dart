@@ -6,13 +6,13 @@ import 'package:myapp/views/widgets/filter/order_by_filter.dart';
 import 'package:myapp/views/widgets/filter/types_filter.dart';
 import 'package:myapp/views/widgets/filter/weight_height_filter.dart';
 
-class FilterPopup extends StatefulWidget {
+class FilterContent extends StatelessWidget {
   final List<String> generations;
   final List<bool> selectedGenerations;
   final Function(int) onGenerationSelected;
   final Function(String) onOrderByChanged;
 
-  const FilterPopup({
+  const FilterContent({
     Key? key,
     required this.generations,
     required this.selectedGenerations,
@@ -21,66 +21,31 @@ class FilterPopup extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _FilterPopupState createState() => _FilterPopupState();
-}
-
-class _FilterPopupState extends State<FilterPopup> {
-  double _currentWeightValue = 20;
-  int _currentHeightValue = 170;
-  List<bool> selectedTypes = List<bool>.filled(18, false);
-  List<bool> selectedWeaknesses = List<bool>.filled(18, false);
-  String _orderBy = 'A-Z';
-
-  @override
   Widget build(BuildContext context) {
-    return DraggableScrollableSheet(
-      initialChildSize: 0.7,
-      minChildSize: 0.1, // Almeno il 10% dell'altezza può essere visibile
-      maxChildSize: 0.85, // Massimo apertura fino al 85% dell'altezza
-      builder: (BuildContext context, ScrollController scrollController) {
-        return SingleChildScrollView(
-          controller: scrollController,
-          child: Container(
-            padding: EdgeInsets.all(16.h),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  height: 16.h,
-                ),
-                FilterPopupHeader(),
-                FilterPopupGenerations(
-                  generations: widget.generations,
-                  selectedGenerations: widget.selectedGenerations,
-                  onGenerationSelected: widget.onGenerationSelected,
-                ),
-                SizedBox(height: 32.h),
-                const FilterPopupTypesAndWeaknesses(),
-                SizedBox(height: 32.h),
-                const FilterPopupWeightAndHeight(),
-                SizedBox(height: 32.h),
-                FilterPopupOrderBy(
-                  initialValue: _orderBy,
-                  onChanged: (newValue) {
-                    setState(() {
-                      _orderBy = newValue;
-                      widget.onOrderByChanged(newValue);
-                    });
-                  },
-                ),
-              ],
-            ),
+    return Container(
+      padding: EdgeInsets.all(16.h),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(height: 16.h),
+          FilterPopupHeader(),
+          FilterPopupGenerations(
+            generations: generations,
+            selectedGenerations: selectedGenerations,
+            onGenerationSelected: onGenerationSelected,
           ),
-        );
-      },
+          SizedBox(height: 32.h),
+          const FilterPopupTypesAndWeaknesses(),
+          SizedBox(height: 32.h),
+          const FilterPopupWeightAndHeight(),
+          SizedBox(height: 32.h),
+          FilterPopupOrderBy(
+            initialValue: 'A-Z', // Set initial value as needed
+            onChanged: onOrderByChanged,
+          ),
+        ],
+      ),
     );
   }
 }
