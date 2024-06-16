@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myapp/Utils/palette.dart';
 
 class FilterPopupHeader extends StatelessWidget {
+  const FilterPopupHeader({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Center(

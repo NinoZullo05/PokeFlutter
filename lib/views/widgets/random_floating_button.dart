@@ -23,6 +23,7 @@ class RandomFloatingButton extends StatelessWidget {
         textHeight: 20, // FIX
       ),
       onPressed: () {
+        // ignore: avoid_print
         print("Random button pressed!");
       },
     );

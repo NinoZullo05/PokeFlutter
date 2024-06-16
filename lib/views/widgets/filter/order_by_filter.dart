@@ -5,7 +5,7 @@ class FilterPopupOrderBy extends StatefulWidget {
   final String initialValue;
   final Function(String) onChanged;
 
-  const FilterPopupOrderBy({
+  const FilterPopupOrderBy({super.key, 
     required this.initialValue,
     required this.onChanged,
   });
@@ -32,12 +32,12 @@ class _FilterPopupOrderByState extends State<FilterPopupOrderBy> {
           "Order By",
           style: Theme.of(context).textTheme.labelLarge,
         ),
-        Spacer(),
+        const Spacer(),
         SizedBox(
           width: 150.w,
           child: DropdownButton<String>(
             value: _orderBy,
-            icon: Icon(Icons.arrow_drop_down),
+            icon: const Icon(Icons.arrow_drop_down),
             iconSize: 24,
             elevation: 16,
             style: Theme.of(context).textTheme.labelLarge,

@@ -67,6 +67,7 @@ class _GridItemState extends State<GridItem> {
                       "assets/pokeball.svg",
                       height: 88.r,
                       width: 88.r,
+                      // ignore: deprecated_member_use
                       color: Colors.white12,
                     ),
                   ),

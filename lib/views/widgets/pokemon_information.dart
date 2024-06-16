@@ -8,7 +8,7 @@ import 'package:myapp/views/widgets/pokemon_information/pokemon_details.dart';
 class PokemonInformation extends StatelessWidget {
   final Pokemon pokemon;
 
-  const PokemonInformation({Key? key, required this.pokemon}) : super(key: key);
+  const PokemonInformation({super.key, required this.pokemon});
 
   @override
   Widget build(BuildContext context) {
@@ -35,51 +35,49 @@ class PokemonInformation extends StatelessWidget {
           ),
         ],
       ),
-      body: Container(
-        child: Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    backgroundColor,
-                    backgroundColor.withOpacity(0.75),
-                    backgroundColor.withOpacity(0.5),
-                    backgroundColor.withOpacity(0.25),
-                    Colors.white,
-                  ],
-                  stops: const [
-                    0.0,
-                    0.1,
-                    0.2,
-                    0.3,
-                    1.0,
-                  ],
-                ),
-              ),
-              child: Center(
-                child: Column(
-                  children: [
-                    Image.network(
-                      pokemon.urlSprite,
-                      width: 200,
-                      height: 200,
-                      fit: BoxFit.cover,
-                    ),
-                    SizedBox(height: 20.h),
-                    Text(pokemon.name.capitalize(), style: Theme.of(context).textTheme.titleLarge!),
-                    SizedBox(height: 15.h),
-                  ],
-                ),
+      body: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  backgroundColor,
+                  backgroundColor.withOpacity(0.75),
+                  backgroundColor.withOpacity(0.5),
+                  backgroundColor.withOpacity(0.25),
+                  Colors.white,
+                ],
+                stops: const [
+                  0.0,
+                  0.1,
+                  0.2,
+                  0.3,
+                  1.0,
+                ],
               ),
             ),
-            Expanded(
-              child: PokemonDetails(pokemon: pokemon),
+            child: Center(
+              child: Column(
+                children: [
+                  Image.network(
+                    pokemon.urlSprite,
+                    width: 200,
+                    height: 200,
+                    fit: BoxFit.cover,
+                  ),
+                  SizedBox(height: 20.h),
+                  Text(pokemon.name.capitalize(), style: Theme.of(context).textTheme.titleLarge!),
+                  SizedBox(height: 15.h),
+                ],
+              ),
             ),
-          ],
-        ),
+          ),
+          Expanded(
+            child: PokemonDetails(pokemon: pokemon),
+          ),
+        ],
       ),
     );
   }

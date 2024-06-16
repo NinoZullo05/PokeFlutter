@@ -7,9 +7,9 @@ import 'dart:convert';
 
 class SearchBarF extends StatefulWidget {
   const SearchBarF({
-    Key? key,
+    super.key,
     required this.searchController,
-  }) : super(key: key);
+  });
 
   final TextEditingController searchController;
 
@@ -39,10 +39,10 @@ class _SearchBarFState extends State<SearchBarF> {
           selectedGenerations = List<bool>.filled(generations.length, false);
         });
       } else {
-        print('Failed to load generations');
+        //print('Failed to load generations');
       }
     } catch (e) {
-      print('Error: $e');
+      // print('Error: $e');
     }
   }
 
@@ -154,7 +154,6 @@ class _SearchBarFState extends State<SearchBarF> {
   }
 
   void _handleOrderByChanged(String newValue) {
-    print('Order By changed to: $newValue');
-    // Implement your logic for handling order by change here
+    //print('Order By changed to: $newValue');
   }
 }
