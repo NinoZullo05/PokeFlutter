@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myapp/Models/pokemon.dart';
 import 'package:myapp/Utils/palette.dart';
 import 'package:myapp/views/widgets/pokemon_information/about.dart';
+import 'package:myapp/views/widgets/pokemon_information/evolutions.dart';
 import 'package:myapp/views/widgets/pokemon_information/moves.dart';
 import 'package:myapp/views/widgets/pokemon_information/stats.dart';
 
@@ -132,10 +133,12 @@ class _PokemonDetailsState extends State<PokemonDetails> {
   }
 
   Widget _buildMovesSection() {
-    return Center(child: MovesPokemon(pokemon: widget.pokemon),);
+    return Center(
+      child: MovesPokemon(pokemon: widget.pokemon),
+    );
   }
 
   Widget _buildEvolutionsSection() {
-    return const Center(child: Text("Evolutions Section"));
+    return Center(child: EvolutionsTab(pokemonId: widget.pokemon.id));
   }
 }

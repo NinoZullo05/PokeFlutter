@@ -12,7 +12,8 @@ class PokemonInformation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color backgroundColor = listPokemonTypeColor[pokemon.typesList[0].toLowerCase()] ?? Colors.grey;
+    Color backgroundColor =
+        listPokemonTypeColor[pokemon.typesList[0].toLowerCase()] ?? Colors.grey;
 
     return Scaffold(
       appBar: AppBar(
@@ -68,7 +69,8 @@ class PokemonInformation extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                   SizedBox(height: 20.h),
-                  Text(pokemon.name.capitalize(), style: Theme.of(context).textTheme.titleLarge!),
+                  Text(pokemon.name.capitalize(),
+                      style: Theme.of(context).textTheme.titleLarge!),
                   SizedBox(height: 15.h),
                 ],
               ),
@@ -89,6 +91,6 @@ String _displayNumber(int number) {
   } else if (number < 100) {
     return "#0$number";
   } else {
-    return number.toString();
+    return "#${number.toString()}";
   }
 }
