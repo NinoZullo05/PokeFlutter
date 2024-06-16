@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myapp/Models/pokemon.dart';
 import 'package:myapp/Utils/palette.dart';
 import 'package:myapp/views/widgets/pokemon_information/about.dart';
+import 'package:myapp/views/widgets/pokemon_information/moves.dart';
 import 'package:myapp/views/widgets/pokemon_information/stats.dart';
 
 class PokemonDetails extends StatefulWidget {
@@ -20,7 +21,8 @@ class _PokemonDetailsState extends State<PokemonDetails> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context, designSize: const Size(360, 690), minTextAdapt: true);
+    ScreenUtil.init(context,
+        designSize: const Size(360, 690), minTextAdapt: true);
 
     return Scaffold(
       body: LayoutBuilder(
@@ -130,7 +132,7 @@ class _PokemonDetailsState extends State<PokemonDetails> {
   }
 
   Widget _buildMovesSection() {
-    return const Center(child: Text("Moves Section"));
+    return Center(child: MovesPokemon(pokemon: widget.pokemon),);
   }
 
   Widget _buildEvolutionsSection() {
