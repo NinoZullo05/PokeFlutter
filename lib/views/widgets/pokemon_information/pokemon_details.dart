@@ -1,5 +1,3 @@
-// Supponendo che il file AboutPokemon sia definito correttamente in un altro file
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myapp/Models/pokemon.dart';
