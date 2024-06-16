@@ -24,7 +24,7 @@ class AboutPokemon extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                "POKEMON DESCRIPTION (NULL!)",
+                "No description provided in the Pokémon API", // TODO : Search another API that contains this information
                 style: Theme.of(context).textTheme.bodyLarge,
                 textAlign: TextAlign.center,
               ),

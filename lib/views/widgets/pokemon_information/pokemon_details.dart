@@ -58,6 +58,8 @@ class _PokemonDetailsState extends State<PokemonDetails> {
   }
 
   Widget _buildSectionTitle(String title, int pageIndex) {
+    bool isSelected = _currentPageIndex == pageIndex;
+
     return InkWell(
       onTap: () {
         _pageController.animateToPage(
@@ -68,13 +70,28 @@ class _PokemonDetailsState extends State<PokemonDetails> {
       },
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-        child: Text(
-          title,
-          style: TextStyle(
-            fontSize: 18.0,
-            fontWeight: _currentPageIndex == pageIndex ? FontWeight.bold : FontWeight.normal,
-            color: _currentPageIndex == pageIndex ? gray[500] : gray[300],
-          ),
+        child: Column(
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                color: isSelected ? gray[500] : gray[300],
+              ),
+            ),
+            SizedBox(height: 4.h),
+            if (isSelected)
+              Container(
+                height: 2.0,
+                width: 30.0,
+                decoration: BoxDecoration(
+                  color: gray[400], 
+                  borderRadius: BorderRadius.circular(
+                      2.0), 
+                ),
+              ),
+          ],
         ),
       ),
     );
