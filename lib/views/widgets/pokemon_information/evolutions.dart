@@ -5,7 +5,6 @@ import 'package:myapp/Models/pokemon.dart';
 import 'package:myapp/Utils/capitalize.dart';
 import 'package:myapp/Utils/palette.dart';
 
-
 class EvolutionsTab extends StatefulWidget {
   final int pokemonId;
 
@@ -47,61 +46,74 @@ class _EvolutionsTabState extends State<EvolutionsTab> {
                   return Column(
                     children: [
                       Container(
-                        height: 150,
                         width: double.infinity,
-                        margin:
-                            EdgeInsets.symmetric(vertical: 16, horizontal: 44),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          color: gray[100],
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              // Pokémon image
-                              Image.network(
-                                evolution.spriteUrl,
-                                width: 64,
-                                height: 64,
-                                fit: BoxFit.cover,
+                        margin: EdgeInsets.symmetric(vertical: 16, horizontal: 44),
+                        child: Row(
+                          children: [
+                            // Pokémon image container with gray background
+                            Container(
+                              height: 150,
+                              width: 150,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16),
+                                color: gray[100],
                               ),
-                              SizedBox(width: 16),
-                              Column(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Image.network(
+                                  evolution.spriteUrl,
+                                  width: 80.w,
+                                  height: 80.h,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(
-                                    'Name: ${evolution.name}',
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.black),
-                                  ),
-                                  Text(
-                                    'ID: ${evolution.id}',
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.black),
-                                  ),
-                                  Row(
+                                  Text(_displayNumber(evolution.id),
+                                      style: Theme.of(context).textTheme.bodyLarge),
+                                  Text(evolution.name.capitalize(),
+                                      style: Theme.of(context).textTheme.labelLarge),
+                                  SizedBox(height: 8.h),
+                                  Wrap(
+                                    spacing: 4.w,
+                                    runSpacing: 4.h,
                                     children: evolution.types.map((type) {
-                                      String typeName =
-                                          type.toLowerCase().capitalize();
-                                      return Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 4.0),
-                                        child: Image(
-                                          image: AssetImage(
-                                            "assets/types_icons/Pokémon_${typeName}_Type_Icon.png",
+                                      String typeName = type.toLowerCase().capitalize();
+                                      return Container(
+                                        height: 30.h,
+                                        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(12),
+                                          border: Border.all(
+                                            color: Colors.grey[300]!,
                                           ),
-                                          height: 38,
-                                          width: 38,
+                                        ),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Image(
+                                              image: AssetImage(
+                                                "assets/types_icons/Pokémon_${typeName}_Type_Icon.png",
+                                              ),
+                                              height: 20.h,
+                                              width: 20.w,
+                                            ),
+                                            SizedBox(width: 4.w),
+                                            Text(typeName, style: TextStyle(fontSize: 12.sp)),
+                                          ],
                                         ),
                                       );
                                     }).toList(),
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                       if (idx < evolutions.length - 1)
@@ -128,3 +140,12 @@ class _EvolutionsTabState extends State<EvolutionsTab> {
   }
 }
 
+String _displayNumber(int number) {
+  if (number < 10) {
+    return "#00$number";
+  } else if (number < 100) {
+    return "#0$number";
+  } else {
+    return "#${number.toString()}";
+  }
+}
