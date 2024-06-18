@@ -1,0 +1,2 @@
+Ho dovuto apportare alcune modifiche al progetto:
+- Descrizione del pokemon: Nell'api non è presente la stessa descrizione del mockup, 

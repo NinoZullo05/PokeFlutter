@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:myapp/Models/evolution.dart';
 
 class Pokemon {
-  final int id;
+   final int id;
   final String name;
   final String urlSprite;
   final String urlImage;
@@ -106,39 +106,24 @@ Future<Pokemon> fetchPokemon(int id) async {
 Future<List<Evolution>> fetchPokemonEvolutions(int pokemonId) async {
   List<Evolution> evolutions = [];
 
-  // Fetch evolution chain URL!!
   final pokemonResponse =
       await http.get(Uri.parse('https://pokeapi.co/api/v2/pokemon/$pokemonId'));
   if (pokemonResponse.statusCode == 200) {
     final pokemonData = jsonDecode(pokemonResponse.body);
     String speciesUrl = pokemonData['species']['url'];
 
-    // Fetch species details to get evolution chain URL!!!
     final speciesResponse = await http.get(Uri.parse(speciesUrl));
     if (speciesResponse.statusCode == 200) {
       final speciesData = jsonDecode(speciesResponse.body);
       String evolutionChainUrl = speciesData['evolution_chain']['url'];
 
-      // Fetch evolution chain details!!!
       final evolutionChainResponse =
           await http.get(Uri.parse(evolutionChainUrl));
       if (evolutionChainResponse.statusCode == 200) {
         final evolutionChainData = jsonDecode(evolutionChainResponse.body);
 
-        // Extract evolutions!!!
         var chain = evolutionChainData['chain'];
-        evolutions.add(await _getEvolutionDetails(chain['species']['name']));
-
-        if (chain['evolves_to'].isNotEmpty) {
-          var secondEvolution = chain['evolves_to'][0]['species']['name'];
-          evolutions.add(await _getEvolutionDetails(secondEvolution));
-
-          if (chain['evolves_to'][0]['evolves_to'].isNotEmpty) {
-            var thirdEvolution =
-                chain['evolves_to'][0]['evolves_to'][0]['species']['name'];
-            evolutions.add(await _getEvolutionDetails(thirdEvolution));
-          }
-        }
+        await _parseEvolutionChain(chain, evolutions);
       }
     }
   }
@@ -146,23 +131,61 @@ Future<List<Evolution>> fetchPokemonEvolutions(int pokemonId) async {
   return evolutions;
 }
 
-Future<Evolution> _getEvolutionDetails(String speciesName) async {
+Future<void> _parseEvolutionChain(
+    dynamic chainData, List<Evolution> evolutions) async {
+  Evolution evolution =
+      await _getEvolutionDetails(chainData['species']['name'], chainData['evolution_details']);
+  evolutions.add(evolution);
+
+  if (chainData['evolves_to'] != null && chainData['evolves_to'].isNotEmpty) {
+    await _parseEvolvesTo(chainData['evolves_to'], evolutions);
+  }
+}
+
+Future<void> _parseEvolvesTo(
+    List<dynamic> evolvesToData, List<Evolution> evolutions) async {
+  for (var evolveData in evolvesToData) {
+    Evolution evolution =
+        await _getEvolutionDetails(evolveData['species']['name'], evolveData['evolution_details']);
+    evolutions.add(evolution);
+
+    if (evolveData['evolves_to'] != null &&
+        evolveData['evolves_to'].isNotEmpty) {
+      await _parseEvolvesTo(evolveData['evolves_to'], evolutions);
+    }
+  }
+}
+
+Future<Evolution> _getEvolutionDetails(String speciesName, List<dynamic> evolutionDetails) async {
   final response = await http
       .get(Uri.parse('https://pokeapi.co/api/v2/pokemon/$speciesName'));
   if (response.statusCode == 200) {
     final data = jsonDecode(response.body);
+
     List<String> types = [];
     data['types'].forEach((typeData) {
       types.add(typeData['type']['name']);
     });
 
+    String spriteUrl = data['sprites']['front_default'];
+    int id = data['id'];
+    int? minLevel = _getMinLevel(evolutionDetails);
+
     return Evolution(
-      name: data['name'],
-      id: data['id'],
+      name: data['species']['name'],
+      id: id,
       types: types,
-      spriteUrl: data['sprites']['front_default'],
+      spriteUrl: spriteUrl,
+      minLevel: minLevel,
     );
   } else {
     throw Exception('Failed to load evolution details');
   }
+}
+
+int? _getMinLevel(List<dynamic> evolutionDetails) {
+  if (evolutionDetails.isNotEmpty) {
+    return evolutionDetails[0]['min_level'];
+  }
+  return null;
 }

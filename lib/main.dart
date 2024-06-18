@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       builder: (context, child) {
         return MaterialApp(
-          title: 'Flutter Demo',
+          title: 'PokeFlutter',
           theme: pokeFlutterTheme,
           home: const HomePage(),
         );
