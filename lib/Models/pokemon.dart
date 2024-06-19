@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:myapp/Models/evolution.dart';
 
 class Pokemon {
-   final int id;
+  final int id;
   final String name;
   final String urlSprite;
   final String urlImage;
@@ -133,8 +133,8 @@ Future<List<Evolution>> fetchPokemonEvolutions(int pokemonId) async {
 
 Future<void> _parseEvolutionChain(
     dynamic chainData, List<Evolution> evolutions) async {
-  Evolution evolution =
-      await _getEvolutionDetails(chainData['species']['name'], chainData['evolution_details']);
+  Evolution evolution = await _getEvolutionDetails(
+      chainData['species']['name'], chainData['evolution_details']);
   evolutions.add(evolution);
 
   if (chainData['evolves_to'] != null && chainData['evolves_to'].isNotEmpty) {
@@ -145,8 +145,8 @@ Future<void> _parseEvolutionChain(
 Future<void> _parseEvolvesTo(
     List<dynamic> evolvesToData, List<Evolution> evolutions) async {
   for (var evolveData in evolvesToData) {
-    Evolution evolution =
-        await _getEvolutionDetails(evolveData['species']['name'], evolveData['evolution_details']);
+    Evolution evolution = await _getEvolutionDetails(
+        evolveData['species']['name'], evolveData['evolution_details']);
     evolutions.add(evolution);
 
     if (evolveData['evolves_to'] != null &&
@@ -156,7 +156,8 @@ Future<void> _parseEvolvesTo(
   }
 }
 
-Future<Evolution> _getEvolutionDetails(String speciesName, List<dynamic> evolutionDetails) async {
+Future<Evolution> _getEvolutionDetails(
+    String speciesName, List<dynamic> evolutionDetails) async {
   final response = await http
       .get(Uri.parse('https://pokeapi.co/api/v2/pokemon/$speciesName'));
   if (response.statusCode == 200) {
@@ -189,3 +190,4 @@ int? _getMinLevel(List<dynamic> evolutionDetails) {
   }
   return null;
 }
+// TODO : fix the evolution details , not every pokemon evolves with level
