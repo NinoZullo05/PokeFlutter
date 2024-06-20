@@ -37,14 +37,14 @@ class BottomNavBar extends StatelessWidget {
             }
             break;
           case 2:
-            // Esempio di navigazione per il terzo elemento (QuizPage)
-            // Sostituisci `QuizPage()` con la tua pagina desiderata
-            navigateToPage(const HomePage());
+            if (selectedIndex != 2) {
+              navigateToPage(const ComparePage());
+            }
             break;
           case 3:
-            // Esempio di navigazione per il quarto elemento (FavoritePage)
-            // Sostituisci `FavoritePage()` con la tua pagina desiderata
-            navigateToPage(const HomePage());
+            if (selectedIndex != 2) {
+              navigateToPage(const ComparePage());
+            }
             break;
           default:
             break;
