@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Utils/palette.dart';
+import 'package:myapp/views/compare_page.dart';
 import 'package:myapp/views/home_page.dart';
 
 class BottomNavBar extends StatelessWidget {
   final int selectedIndex;
 
   const BottomNavBar({
-    super.key,
+    Key? key,
     required this.selectedIndex,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final unselectedItemColor = gray[300];
+
+    void navigateToPage(Widget page) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => page),
+      );
+    }
 
     return BottomNavigationBar(
       currentIndex: selectedIndex,
@@ -20,57 +28,52 @@ class BottomNavBar extends StatelessWidget {
         switch (index) {
           case 0:
             if (selectedIndex != 0) {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const HomePage(),
-                ),
-              );
-              Navigator.pop(context);
+              navigateToPage(const HomePage());
             }
-
             break;
           case 1:
             if (selectedIndex != 1) {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const HomePage(),
-                ),
-              );
+              navigateToPage(const ComparePage());
             }
             break;
           case 2:
-            if (selectedIndex != 2) {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const HomePage(),
-                ),
-              );
-            }
+            // Esempio di navigazione per il terzo elemento (QuizPage)
+            // Sostituisci `QuizPage()` con la tua pagina desiderata
+            navigateToPage(const HomePage());
             break;
           case 3:
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => const HomePage(),
-              ),
-            );
+            // Esempio di navigazione per il quarto elemento (FavoritePage)
+            // Sostituisci `FavoritePage()` con la tua pagina desiderata
+            navigateToPage(const HomePage());
             break;
           default:
             break;
         }
       },
       items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: "Home"),
         BottomNavigationBarItem(
-            icon: Icon(Icons.compare_arrows), label: "Compare"),
-        BottomNavigationBarItem(icon: Icon(Icons.quiz), label: "Quiz"),
+          icon: Icon(Icons.home_filled),
+          label: "Home",
+        ),
         BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_border), label: "Favorite"),
+          icon: Icon(Icons.compare_arrows),
+          label: "Compare",
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.quiz),
+          label: "Quiz",
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.favorite_border),
+          label: "Favorite",
+        ),
       ],
       selectedLabelStyle: textTheme.labelMedium,
-      unselectedLabelStyle: textTheme.labelMedium?.copyWith(color: gray[300]),
+      unselectedLabelStyle:
+          textTheme.labelMedium?.copyWith(color: unselectedItemColor),
       showUnselectedLabels: true,
-      selectedItemColor: gray[400], // Colore dell'icona selezionata
-      unselectedItemColor: gray[300], // Colore dell'icona non selezionata
+      selectedItemColor: gray[400],
+      unselectedItemColor: unselectedItemColor,
     );
   }
 }
