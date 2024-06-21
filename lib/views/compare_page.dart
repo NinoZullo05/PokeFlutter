@@ -18,30 +18,109 @@ class _ComparePageState extends State<ComparePage> {
 
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: EdgeInsets.only(top: 76.h, left: 24.w, right: 24.w),
-              child: StyledText(
-                text: "Comparator",
-                style: textTheme.displaySmall!,
-                textHeight: 44,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.only(top: 76.h),
+                child: StyledText(
+                  text: "Comparator",
+                  style: textTheme.displaySmall!,
+                  textHeight: 44,
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
-              child: Text(
-                "Select two Pokémon and compare them to see who is the strongest!",
-                style: textTheme.bodyLarge
-                    ?.copyWith(color: gray[400], height: (24 / 16)),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.h),
+                child: Text(
+                  "Select two Pokémon and compare them to see who is the strongest!",
+                  style: textTheme.bodyLarge,
+                ),
               ),
-            ),
-            SizedBox(
-              height: 16.h,
-            ),
-          ],
+              SizedBox(
+                height: 16.h,
+              ),
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height * 0.275,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: gray[100],
+                      borderRadius: BorderRadius.circular(16.r),
+                    ),
+                    child: InkWell(
+                      // onTap: () => ,
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12.r),
+                          border: Border.all(
+                            color: Colors.grey[300]!,
+                          ),
+                          color: Colors.white,
+                        ),
+                        width: MediaQuery.of(context).size.width * 0.35,
+                        height: MediaQuery.of(context).size.height * 0.075,
+                        child: Text(
+                          "ADD POKEMON",
+                          style: textTheme.labelLarge,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                alignment: Alignment.center,
+                width: 80.r,
+                height: 80.r,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.casino_outlined,
+                  size: 50.r,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(
+                height: 15.h,
+              ),
+              Container(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height * 0.275,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: gray[100],
+                  borderRadius: BorderRadius.circular(16.r),
+                ),
+                child: InkWell(
+                  // onTap: () => ,
+                  child: Container(
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.r),
+                      border: Border.all(
+                        color: Colors.grey[300]!,
+                      ),
+                      color: Colors.white,
+                    ),
+                    width: MediaQuery.of(context).size.width * 0.35,
+                    height: MediaQuery.of(context).size.height * 0.075,
+                    child: Text(
+                      "ADD POKEMON",
+                      style: textTheme.labelLarge,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: const BottomNavBar(selectedIndex: 1),
