@@ -20,7 +20,7 @@ class PokemonList extends StatelessWidget {
           crossAxisCount: 2,
           crossAxisSpacing: 8.r,
           mainAxisSpacing: 8.r,
-          mainAxisExtent: deviceSize.height*0.128, 
+          mainAxisExtent: deviceSize.height * 0.128,
         ),
         itemBuilder: (BuildContext context, int index) {
           return GridItem(pokemon: pokemonList[index]);

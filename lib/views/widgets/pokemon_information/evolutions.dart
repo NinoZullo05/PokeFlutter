@@ -7,7 +7,7 @@ import 'package:myapp/Utils/capitalize.dart';
 class EvolutionsTab extends StatefulWidget {
   final int pokemonId;
 
-  EvolutionsTab({Key? key, required this.pokemonId}) : super(key: key);
+  const EvolutionsTab({super.key, required this.pokemonId});
 
   @override
   State<EvolutionsTab> createState() => _EvolutionsTabState();
@@ -29,11 +29,11 @@ class _EvolutionsTabState extends State<EvolutionsTab> {
         future: _futureEvolutions,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No evolutions found.'));
+            return const Center(child: Text('No evolutions found.'));
           } else {
             List<Evolution> evolutions = snapshot.data!;
             return SingleChildScrollView(
@@ -45,7 +45,7 @@ class _EvolutionsTabState extends State<EvolutionsTab> {
                     children: [
                       Container(
                         width: double.infinity,
-                        margin: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                        margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                         child: Row(
                           children: [
                             Container(

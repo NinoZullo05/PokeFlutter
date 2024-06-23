@@ -5,7 +5,7 @@ import 'package:myapp/Utils/capitalize.dart';
 
 class MovesPokemon extends StatefulWidget {
   final Pokemon pokemon;
-  const MovesPokemon({Key? key, required this.pokemon}) : super(key: key);
+  const MovesPokemon({super.key, required this.pokemon});
 
   @override
   State<MovesPokemon> createState() => _MovesPokemonState();
@@ -19,7 +19,7 @@ class _MovesPokemonState extends State<MovesPokemon> {
       child: ListView.separated(
         shrinkWrap: true,
         itemCount: widget.pokemon.moves.length,
-        separatorBuilder: (context, index) => Divider(),
+        separatorBuilder: (context, index) => const Divider(),
         itemBuilder: (context, index) {
           return _buildMove(widget.pokemon.moves[index]);
         },

@@ -14,20 +14,19 @@ class _CompareButtonState extends State<CompareButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-
-      },
+      onPressed: () {},
       style: ElevatedButton.styleFrom(
-        backgroundColor: widget.isReadyToCompare ? Colors.yellow : Colors.yellow[300],
+        backgroundColor:
+            widget.isReadyToCompare ? Colors.yellow : Colors.yellow[300],
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.r),
         ),
       ),
       child: Text(
-        'Compare',
+        'COMPARE!',
         style: Theme.of(context).textTheme.labelLarge!.copyWith(
-          color: widget.isReadyToCompare ? Colors.black : Colors.grey,
-        ),
+              color: widget.isReadyToCompare ? Colors.black : Colors.grey,
+            ),
       ),
     );
   }

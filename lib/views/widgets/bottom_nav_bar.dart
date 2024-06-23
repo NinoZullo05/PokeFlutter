@@ -7,9 +7,9 @@ class BottomNavBar extends StatelessWidget {
   final int selectedIndex;
 
   const BottomNavBar({
-    Key? key,
+    super.key,
     required this.selectedIndex,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
