@@ -8,12 +8,11 @@ class CompareResultPage extends StatelessWidget {
   final Map<String, dynamic> pokemon2;
 
   CompareResultPage({
-    Key? key,
+    super.key,
     required this.pokemon1,
     required this.pokemon2,
-  }) : super(key: key);
+  });
 
-  // Method to calculate the total stats of a Pokémon
   int calculateTotalStats(Map<String, dynamic> pokemon) {
     int totalStats = 0;
     for (var stat in pokemon['stats']) {
@@ -24,6 +23,8 @@ class CompareResultPage extends StatelessWidget {
 
   Map<String, dynamic> pokemonWinner = {};
   Map<String, dynamic> pokemonLoser = {};
+
+  bool isTie = false;
 
   void determineWinner() {
     int totalStats1 = calculateTotalStats(pokemon1);
@@ -36,8 +37,9 @@ class CompareResultPage extends StatelessWidget {
       pokemonWinner = pokemon2;
       pokemonLoser = pokemon1;
     } else {
-      pokemonWinner = {}; // Handle tie if needed
-      pokemonLoser = {};
+      isTie = true;
+      pokemonWinner = pokemon1;
+      pokemonLoser = pokemon2;
     }
   }
 
@@ -51,7 +53,7 @@ class CompareResultPage extends StatelessWidget {
       return Container(
         height: 24.h,
         width: 8.w,
-        margin: EdgeInsets.symmetric(horizontal: 2.5.w),
+        margin: EdgeInsets.symmetric(horizontal: 1.w),
         decoration: BoxDecoration(
           color: Colors.yellow,
           borderRadius: BorderRadius.circular(5.r),
@@ -63,16 +65,16 @@ class CompareResultPage extends StatelessWidget {
       return Container(
         height: 24.h,
         width: 8.w,
-        margin: EdgeInsets.symmetric(horizontal: 2.5.w),
+        margin: EdgeInsets.symmetric(horizontal: 1.w),
         decoration: BoxDecoration(
-          color: Colors.grey[500],
+          color: gray[500],
           borderRadius: BorderRadius.circular(5.r),
         ),
       );
     });
 
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
+      padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 5.w),
       child: Row(
         children: [
           SizedBox(
@@ -86,19 +88,18 @@ class CompareResultPage extends StatelessWidget {
             width: 32.w,
             child: Text(
               "$num",
-              style: TextStyle(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey[500],
-              ),
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(color: gray[500]),
               textAlign: TextAlign.right,
             ),
           ),
           Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 5.w),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Wrap(
+                alignment: WrapAlignment.start,
                 children: [
                   ...yellowWidgets,
                   ...grayWidgets,
@@ -107,15 +108,12 @@ class CompareResultPage extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: 16.w,
             child: Text(
               "$loserNum",
-              style: TextStyle(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey[500],
-              ),
-              textAlign: TextAlign.right,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(color: gray[500]),
             ),
           ),
         ],
@@ -127,13 +125,29 @@ class CompareResultPage extends StatelessWidget {
   Widget build(BuildContext context) {
     determineWinner();
 
-    String winnerText = pokemonWinner.isNotEmpty
-        ? "${pokemonWinner['name'].toString().capitalize()} wins!"
-        : "It's a tie!";
+    String winnerText = isTie
+        ? "It's a tie!"
+        : "${pokemonWinner['name'].toString().capitalize()} wins!";
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Comparator"),
+        title: Text(
+          "Comparator",
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.favorite_border),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -146,34 +160,58 @@ class CompareResultPage extends StatelessWidget {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        decoration: BoxDecoration(color: Colors.grey[200]),
-                        child: Column(
-                          children: [
-                            Image.network(
+                      child: Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(10.r),
+                            ),
+                            child: Image.network(
                               pokemonWinner['sprites']['front_default'],
                               height: 150.h,
                             ),
-                            Text(pokemonWinner['name'].toString().capitalize()),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            pokemonWinner['name'].toString().capitalize(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge
+                                ?.copyWith(
+                                  color: gray[500],
+                                ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        decoration: BoxDecoration(color: Colors.grey[200]),
-                        child: Column(
-                          children: [
-                            Image.network(
+                      child: Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(10.r),
+                            ),
+                            child: Image.network(
                               pokemonLoser['sprites']['front_default'],
                               height: 150.h,
                             ),
-                            Text(pokemonLoser['name'].toString().capitalize()),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            pokemonLoser['name'].toString().capitalize(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge
+                                ?.copyWith(
+                                  color: gray[500],
+                                ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -182,7 +220,9 @@ class CompareResultPage extends StatelessWidget {
               const SizedBox(height: 16),
               Text(
                 winnerText,
-                style: Theme.of(context).textTheme.bodyLarge,
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: gray[500],
+                    ),
               ),
               const SizedBox(height: 16),
               _buildStatsList(

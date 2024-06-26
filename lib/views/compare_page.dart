@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:myapp/Utils/capitalize.dart';
 import 'package:myapp/Utils/palette.dart';
 import 'package:myapp/views/compare_result.dart';
 import 'package:myapp/views/widgets/bottom_nav_bar.dart';
@@ -60,13 +59,9 @@ class _ComparePageState extends State<ComparePage> {
 
   void searchPokemon(String query) {
     setState(() {
-      if (query.isEmpty) {
-        filteredPokemonList = [];
-      } else {
-        filteredPokemonList = pokemonList.where((pokemon) {
-          return pokemon['name'].toLowerCase().contains(query.toLowerCase());
-        }).toList();
-      }
+      filteredPokemonList = pokemonList.where((pokemon) {
+        return pokemon['name'].toLowerCase().contains(query.toLowerCase());
+      }).toList();
     });
   }
 
@@ -172,7 +167,7 @@ class _ComparePageState extends State<ComparePage> {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 64.h),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 alignment: Alignment.centerLeft,
@@ -196,7 +191,6 @@ class _ComparePageState extends State<ComparePage> {
                 children: [
                   Column(
                     children: [
-                      // First Pokemon Selector
                       Container(
                         width: double.infinity,
                         height: MediaQuery.of(context).size.height * 0.275,
@@ -207,34 +201,32 @@ class _ComparePageState extends State<ComparePage> {
                         ),
                         child: InkWell(
                           onTap: () => showPokemonSelector(true),
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Container(
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12.r),
-                                  border: Border.all(
-                                    color: Colors.grey[300]!,
+                          child: selectedPokemon1 != null
+                              ? Image.network(
+                                  selectedPokemon1!['sprites']['front_default'],
+                                  fit: BoxFit.contain,
+                                )
+                              : Container(
+                                  width: 150.w,
+                                  height: 50.h,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(16.r),
+                                    border:
+                                        Border.all(color: Colors.grey[300]!),
                                   ),
-                                  color: Colors.white,
+                                  child: Center(
+                                    child: Text(
+                                      'ADD POKEMON',
+                                      style: textTheme.labelLarge,
+                                    ),
+                                  ),
                                 ),
-                                width: MediaQuery.of(context).size.width * 0.35,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.075,
-                              ),
-                              selectedPokemon1 != null
-                                  ? Image.network(selectedPokemon1!['sprites']
-                                      ['front_default'])
-                                  : SizedBox.shrink(),
-                            ],
-                          ),
                         ),
                       ),
                       SizedBox(
                         height: 16.h,
                       ),
-                      // Second Pokemon Selector
                       Container(
                         width: double.infinity,
                         height: MediaQuery.of(context).size.height * 0.275,
@@ -245,33 +237,31 @@ class _ComparePageState extends State<ComparePage> {
                         ),
                         child: InkWell(
                           onTap: () => showPokemonSelector(false),
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Container(
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12.r),
-                                  border: Border.all(
-                                    color: Colors.grey[300]!,
+                          child: selectedPokemon2 != null
+                              ? Image.network(
+                                  selectedPokemon2!['sprites']['front_default'],
+                                  fit: BoxFit.contain,
+                                )
+                              : Container(
+                                  width: 150.w,
+                                  height: 50.h,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(16.r),
+                                    border:
+                                        Border.all(color: Colors.grey[300]!),
                                   ),
-                                  color: Colors.white,
+                                  child: Center(
+                                    child: Text(
+                                      'ADD POKEMON',
+                                      style: textTheme.labelLarge,
+                                    ),
+                                  ),
                                 ),
-                                width: MediaQuery.of(context).size.width * 0.35,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.075,
-                              ),
-                              selectedPokemon2 != null
-                                  ? Image.network(selectedPokemon2!['sprites']
-                                      ['front_default'])
-                                  : SizedBox.shrink(),
-                            ],
-                          ),
                         ),
                       ),
                     ],
                   ),
-                  // Icon Positioned
                   Positioned(
                     top: MediaQuery.of(context).size.height * 0.275 - 40.r,
                     child: Container(
