@@ -4,13 +4,13 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:myapp/Utils/palette.dart';
-import 'package:myapp/views/compare_result.dart';
+import 'package:myapp/views/widgets/compare_result.dart';
 import 'package:myapp/views/widgets/bottom_nav_bar.dart';
 import 'package:myapp/views/widgets/compare_button.dart';
 import 'package:myapp/views/widgets/top_text.dart';
 
 class ComparePage extends StatefulWidget {
-  const ComparePage({Key? key}) : super(key: key);
+  const ComparePage({super.key});
 
   @override
   State<ComparePage> createState() => _ComparePageState();
@@ -24,7 +24,7 @@ class _ComparePageState extends State<ComparePage> {
   List<Map<String, dynamic>> filteredPokemonList = [];
   bool isLoading = true;
   String searchText = '';
-  int _selectedIndex = 1;
+  final int _selectedIndex = 1;
 
   @override
   void initState() {
@@ -70,7 +70,7 @@ class _ComparePageState extends State<ComparePage> {
       context: context,
       builder: (context) {
         return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
+          builder: (BuildContext context, StateSetter modalSetState) {
             return Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -86,7 +86,7 @@ class _ComparePageState extends State<ComparePage> {
                       border: OutlineInputBorder(),
                     ),
                     onChanged: (value) {
-                      setState(() {
+                      modalSetState(() {
                         searchText = value;
                         searchPokemon(value);
                       });
@@ -173,14 +173,14 @@ class _ComparePageState extends State<ComparePage> {
                 alignment: Alignment.centerLeft,
                 child: StyledText(
                   text: "Comparator",
-                  style: textTheme.labelLarge!,
+                  style: textTheme.displaySmall!,
                   textHeight: 44.sp,
                 ),
               ),
               SizedBox(height: 12.h),
               Text(
                 "Select two Pokémon and compare them to see who is the strongest!",
-                style: textTheme.labelLarge
+                style: textTheme.bodyLarge
                     ?.copyWith(color: gray[400], height: (24 / 16)),
               ),
               SizedBox(
@@ -212,8 +212,9 @@ class _ComparePageState extends State<ComparePage> {
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(16.r),
-                                    border:
-                                        Border.all(color: Colors.grey[300]!),
+                                    border: Border.all(
+                                      color: Colors.grey[200]!,
+                                    ),
                                   ),
                                   child: Center(
                                     child: Text(
@@ -248,8 +249,9 @@ class _ComparePageState extends State<ComparePage> {
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(16.r),
-                                    border:
-                                        Border.all(color: Colors.grey[300]!),
+                                    border: Border.all(
+                                      color: Colors.grey[200]!,
+                                    ),
                                   ),
                                   child: Center(
                                     child: Text(

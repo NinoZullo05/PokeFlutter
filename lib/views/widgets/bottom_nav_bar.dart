@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/Utils/palette.dart';
 import 'package:myapp/views/compare_page.dart';
 import 'package:myapp/views/home_page.dart';
+import 'package:myapp/views/quiz_page.dart';
 
 class BottomNavBar extends StatelessWidget {
   final int selectedIndex;
@@ -38,7 +39,7 @@ class BottomNavBar extends StatelessWidget {
             break;
           case 2:
             if (selectedIndex != 2) {
-              navigateToPage(const ComparePage());
+              navigateToPage(const QuizPage());
             }
             break;
           case 3:
