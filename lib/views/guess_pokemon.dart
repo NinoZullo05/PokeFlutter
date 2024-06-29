@@ -1,72 +1,133 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:math';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class GuessPokemon extends StatefulWidget {
-  const GuessPokemon({Key? key}) : super(key: key);
+  const GuessPokemon({super.key});
 
   @override
   State<GuessPokemon> createState() => _GuessPokemonState();
 }
 
 class _GuessPokemonState extends State<GuessPokemon> {
-  late String correctPokemonName;
-  late List<String> options = [];
-  late String spriteUrl =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/unknown.png";
+  String? _pokemonSprite;
+  String? _pokemonName;
+  bool _isLoading = true;
+  bool _showConfetti = false;
+  List<String> _pokemonOptions = [];
+  final random = Random();
+  String? _selectedOption;
+  bool? _isCorrect;
 
   @override
   void initState() {
     super.initState();
-    fetchPokemon();
+    _fetchRandomPokemon();
   }
 
-  Future<void> fetchPokemon() async {
+  Future<void> _fetchRandomPokemon() async {
+    final pokemonId = random.nextInt(898) + 1;
     final response = await http
-        .get(Uri.parse('https://pokeapi.co/api/v2/pokemon-species/?limit=151'));
+        .get(Uri.parse('https://pokeapi.co/api/v2/pokemon/$pokemonId'));
+
     if (response.statusCode == 200) {
-      final decoded = jsonDecode(response.body);
-      final pokemonList = decoded['results'];
-      final random = Random();
-      final index = random.nextInt(pokemonList.length);
-      correctPokemonName = pokemonList[index]['name'];
-      options = generateOptions(correctPokemonName, pokemonList);
-      fetchSprite(correctPokemonName);
+      final data = json.decode(response.body);
+      final sprite = data['sprites']['front_default'];
+      final name = data['name'];
+
+      setState(() {
+        _pokemonSprite = sprite;
+        _pokemonName = name;
+        _isLoading = false;
+      });
+
+      _generatePokemonOptions(name);
     } else {
-      throw Exception('Failed to load Pokemon');
+      setState(() {
+        _isLoading = false;
+      });
+      throw Exception('Failed to load Pokémon');
     }
   }
 
-  List<String> generateOptions(String correctName, List<dynamic> pokemonList) {
-    List<String> options = [];
-    options.add(correctName);
+  Future<void> _generatePokemonOptions(String correctName) async {
+    Set<String> options = {correctName};
 
-    final random = Random();
     while (options.length < 3) {
-      final index = random.nextInt(pokemonList.length);
-      final pokemonName = pokemonList[index]['name'];
-      if (pokemonName != correctName && !options.contains(pokemonName)) {
-        options.add(pokemonName);
+      final pokemonId = random.nextInt(898) + 1;
+      final response = await http
+          .get(Uri.parse('https://pokeapi.co/api/v2/pokemon/$pokemonId'));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        options.add(data['name']);
       }
     }
 
-    // Shuffle options array
-    options.shuffle();
-    return options;
+    setState(() {
+      _pokemonOptions = options.toList()..shuffle();
+      _isLoading = false;
+    });
   }
 
-  Future<void> fetchSprite(String pokemonName) async {
-    final response = await http
-        .get(Uri.parse('https://pokeapi.co/api/v2/pokemon/$pokemonName'));
-    if (response.statusCode == 200) {
-      final decoded = jsonDecode(response.body);
-      final spriteUrl = decoded['sprites']['front_default'];
-      setState(() {
-        this.spriteUrl = spriteUrl;
-      });
+  void _checkAnswer(String selectedName) {
+    final isCorrect = selectedName == _pokemonName;
+    setState(() {
+      _selectedOption = selectedName;
+      _isCorrect = isCorrect;
+      _showConfetti = isCorrect;
+    });
+  }
+
+  void _resetGame() {
+    setState(() {
+      _isLoading = true;
+      _showConfetti = false;
+      _selectedOption = null;
+      _isCorrect = null;
+      _pokemonSprite = null;
+      _pokemonOptions = [];
+    });
+    _fetchRandomPokemon();
+  }
+
+  Widget _buildPokemonImage() {
+    if (_isLoading) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    } else if (_pokemonSprite != null) {
+      return Stack(
+        alignment: Alignment.center,
+        children: [
+          ColorFiltered(
+            colorFilter: ColorFilter.mode(
+              _selectedOption != null && _isCorrect == true
+                  ? Colors.transparent
+                  : Colors.black,
+              BlendMode.srcIn,
+            ),
+            child: Image.network(
+              _pokemonSprite!,
+              fit: BoxFit.cover,
+              width: MediaQuery.of(context).size.width * 0.65,
+            ),
+          ),
+          if (_showConfetti)
+            Positioned.fill(
+              child: Image.asset(
+                'assets/confetti.png',
+                fit: BoxFit.cover,
+              ),
+            ),
+        ],
+      );
     } else {
-      throw Exception('Failed to load Pokemon sprite');
+      return Center(
+        child: Text('Failed to load Pokémon'),
+      );
     }
   }
 
@@ -74,55 +135,78 @@ class _GuessPokemonState extends State<GuessPokemon> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Guess the Pokemon'),
+        title: Text(
+          "Who’s that Pokémon!",
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
-      body: Center(
+      body: Padding(
+        padding: EdgeInsets.all(16.0.sp),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.network(
-              spriteUrl,
-              width: 150,
-              height: 150,
-            ),
-            SizedBox(height: 20),
-            Text('Which Pokemon is this?'),
-            SizedBox(height: 20),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: options
-                  .map(
-                    (option) => ElevatedButton(
-                      onPressed: () {
-                        if (option == correctPokemonName) {
-                          // Correct guess logic
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('Correct!'),
-                                content: Text('You guessed it right!'),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: Text('OK'),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                      fetchPokemon(); // Load new Pokemon
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        } else {
-                          // Incorrect guess logic (can be added if needed)
-                        }
-                      },
-                      child: Text(option),
+            _buildPokemonImage(),
+            if (!_isLoading && _pokemonOptions.isNotEmpty) ...[
+              SizedBox(height: 20.h),
+              ..._pokemonOptions.map((name) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8.0.h),
+                  child: InkWell(
+                    onTap: () => _checkAnswer(name),
+                    child: Container(
+                      padding: EdgeInsets.all(12.0.sp),
+                      decoration: BoxDecoration(
+                        color: _selectedOption == name
+                            ? (_isCorrect == true ? Colors.yellow : Colors.red)
+                            : Colors.transparent,
+                        border: Border.all(
+                          color: Colors.grey[300]!,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0.sp),
+                      ),
+                      child: Center(
+                        child: Text(
+                          name,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18.sp,
+                          ),
+                        ),
+                      ),
                     ),
-                  )
-                  .toList(),
-            ),
+                  ),
+                );
+              }),
+              SizedBox(height: 20.h),
+              if (_selectedOption != null)
+                InkWell(
+                  onTap: _resetGame,
+                  child: Container(
+                    padding: EdgeInsets.all(12.0.sp),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.sp),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.cached),
+                        SizedBox(width: 5.w),
+                        Text(
+                          "Again",
+                          style: Theme.of(context).textTheme.labelLarge,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+            ],
           ],
         ),
       ),

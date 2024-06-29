@@ -4,7 +4,7 @@ import 'package:myapp/views/widgets/bottom_nav_bar.dart';
 import 'package:myapp/views/guess_pokemon.dart'; // Importa la pagina GuessPokemon
 
 class QuizPage extends StatefulWidget {
-  const QuizPage({Key? key}) : super(key: key);
+  const QuizPage({super.key});
 
   @override
   State<QuizPage> createState() => _QuizPageState();

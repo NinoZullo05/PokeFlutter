@@ -6,10 +6,10 @@ class CompareButton extends StatefulWidget {
   final VoidCallback onPressed;
 
   const CompareButton({
-    Key? key,
+    super.key,
     required this.isReadyToCompare,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   State<CompareButton> createState() => _CompareButtonState();
