@@ -95,20 +95,18 @@ class _GuessPokemonState extends State<GuessPokemon> {
 
   Widget _buildPokemonImage() {
     if (_isLoading) {
-      return Center(
-        child: CircularProgressIndicator(),
-      );
-    } else if (_pokemonSprite != null) {
+      return const CircularProgressIndicator();
+    }
+    if (_pokemonSprite != null) {
       return Stack(
         alignment: Alignment.center,
         children: [
           ColorFiltered(
             colorFilter: ColorFilter.mode(
-              _selectedOption != null && _isCorrect == true
-                  ? Colors.transparent
-                  : Colors.black,
-              BlendMode.srcIn,
-            ),
+                _selectedOption != null && _isCorrect == true
+                    ? Colors.transparent
+                    : Colors.black,
+                BlendMode.srcIn),
             child: Image.network(
               _pokemonSprite!,
               fit: BoxFit.cover,
@@ -122,12 +120,16 @@ class _GuessPokemonState extends State<GuessPokemon> {
                 fit: BoxFit.cover,
               ),
             ),
+          if (_showConfetti)
+            Image.network(
+              _pokemonSprite!,
+              fit: BoxFit.cover,
+              width: MediaQuery.of(context).size.width * 0.65,
+            ),
         ],
       );
     } else {
-      return Center(
-        child: Text('Failed to load Pokémon'),
-      );
+      return const Text('Failed to load Pokémon');
     }
   }
 
