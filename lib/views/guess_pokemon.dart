@@ -95,7 +95,7 @@ class _GuessPokemonState extends State<GuessPokemon> {
 
   Widget _buildPokemonImage() {
     if (_isLoading) {
-      return const CircularProgressIndicator();
+      return const Center(child: CircularProgressIndicator());
     }
     if (_pokemonSprite != null) {
       return Stack(
@@ -129,7 +129,7 @@ class _GuessPokemonState extends State<GuessPokemon> {
         ],
       );
     } else {
-      return const Text('Failed to load Pokémon');
+      return const Center(child: Text('Failed to load Pokémon'));
     }
   }
 
@@ -154,7 +154,9 @@ class _GuessPokemonState extends State<GuessPokemon> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _buildPokemonImage(),
+            Expanded(
+              child: Center(child: _buildPokemonImage()),
+            ),
             if (!_isLoading && _pokemonOptions.isNotEmpty) ...[
               SizedBox(height: 20.h),
               ..._pokemonOptions.map((name) {
@@ -193,12 +195,13 @@ class _GuessPokemonState extends State<GuessPokemon> {
                   child: Container(
                     padding: EdgeInsets.all(12.0.sp),
                     decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.circular(8.sp),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.cached),
+                        const Icon(Icons.cached),
                         SizedBox(width: 5.w),
                         Text(
                           "Again",

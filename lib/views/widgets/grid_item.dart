@@ -22,7 +22,7 @@ class _GridItemState extends State<GridItem> {
   Pokemon? pokemon;
   bool _isLoading = true;
   Color? pokemonColor;
-  final bool _isDisposed = false;
+ // final bool _isDisposed = false;
 
   @override
   void initState() {
