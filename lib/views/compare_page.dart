@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
+import 'package:myapp/Models/pokemon.dart';
+import 'package:myapp/Models/pokemon_list_item.dart';
 import 'dart:convert';
 
 import 'package:myapp/Utils/palette.dart';
 import 'package:myapp/views/widgets/compare_result.dart';
 import 'package:myapp/views/widgets/bottom_nav_bar.dart';
 import 'package:myapp/views/widgets/compare_button.dart';
+import 'package:myapp/views/widgets/grid_item_compare.dart';
 import 'package:myapp/views/widgets/top_text.dart';
 
 class ComparePage extends StatefulWidget {
@@ -48,7 +51,8 @@ class _ComparePageState extends State<ComparePage> {
       for (var result in results) {
         final pokemonData = await http.get(Uri.parse(result['url']));
         if (pokemonData.statusCode == 200) {
-          pokemons.add(jsonDecode(pokemonData.body));
+          final pokemonDetails = jsonDecode(pokemonData.body);
+          pokemons.add(pokemonDetails);
         }
       }
       return pokemons;
@@ -60,7 +64,8 @@ class _ComparePageState extends State<ComparePage> {
   void searchPokemon(String query) {
     setState(() {
       filteredPokemonList = pokemonList.where((pokemon) {
-        return pokemon['name'].toLowerCase().contains(query.toLowerCase());
+        return pokemon['name'] != null &&
+            pokemon['name'].toLowerCase().contains(query.toLowerCase());
       }).toList();
     });
   }
@@ -105,32 +110,24 @@ class _ComparePageState extends State<ComparePage> {
                                   style: Theme.of(context).textTheme.labelLarge,
                                 ),
                               )
-                            : ListView.builder(
+                            : GridView.builder(
                                 itemCount: filteredPokemonList.length,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10,
+                                  childAspectRatio: 1,
+                                ),
                                 itemBuilder: (context, index) {
                                   final pokemon = filteredPokemonList[index];
-                                  return ListTile(
-                                    leading: Image.network(
-                                        pokemon['sprites']['front_default']),
-                                    title: Text(
-                                      "${pokemon['name']}",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelLarge,
+                                  return GridCompareItem(
+                                    pokemon: PokemonListItem(
+                                      name: pokemon['name'],
+                                      url: pokemon['url'],
                                     ),
-                                    onTap: () {
-                                      setState(() {
-                                        if (isFirst) {
-                                          selectedPokemon1 = pokemon;
-                                        } else {
-                                          selectedPokemon2 = pokemon;
-                                        }
-                                        isReadyToCompare =
-                                            selectedPokemon1 != null &&
-                                                selectedPokemon2 != null;
-                                      });
-                                      Navigator.pop(context);
-                                    },
+                                    onAddToCompare:
+                                        addPokemonToCompare, // Passa la funzione di callback
                                   );
                                 },
                               ),
@@ -156,6 +153,23 @@ class _ComparePageState extends State<ComparePage> {
         ),
       );
     }
+  }
+
+  void addPokemonToCompare(Pokemon pokemon) {
+    setState(() {
+      if (selectedPokemon1 == null) {
+        selectedPokemon1 = {
+          'name': pokemon.name,
+          'sprites': {'front_default': pokemon.urlSprite}
+        };
+      } else {
+        selectedPokemon2 ??= {
+          'name': pokemon.name,
+          'sprites': {'front_default': pokemon.urlSprite}
+        };
+      }
+      isReadyToCompare = selectedPokemon1 != null && selectedPokemon2 != null;
+    });
   }
 
   @override
