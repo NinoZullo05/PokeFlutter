@@ -1,4 +1,4 @@
-# myapp
+# PokeFlutter
 
 A new Flutter project.
 
