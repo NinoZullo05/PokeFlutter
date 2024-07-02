@@ -52,7 +52,7 @@ class CompareResultPage extends StatelessWidget {
     List<Widget> yellowWidgets = List.generate(yellowDot, (index) {
       return Container(
         height: 24.h,
-        width: 7.w,
+        width: 8.w,
         margin: EdgeInsets.symmetric(horizontal: 1.w),
         decoration: BoxDecoration(
           color: Colors.yellow,
