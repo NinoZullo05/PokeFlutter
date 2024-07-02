@@ -3,7 +3,7 @@ on:
     branches:
       - main
 
-name: Build My Apps
+name: Pokeflutter Release
 
 jobs:
   build:
@@ -24,7 +24,7 @@ jobs:
       - run: flutter pub get
 
       - name: Copy theme.dart
-        run: cp lib/Utils/theme.dart github.com/NinoZullo05/PokeFlutter/main/lib/Utils/theme.dart
+        run: cp lib/Utils/theme.dart $GITHUB_WORKSPACE/lib/Utils/theme.dart
 
 
       - run: flutter build apk --release --split-per-abi
