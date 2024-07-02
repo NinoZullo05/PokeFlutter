@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Utils/palette.dart';
 import 'package:myapp/views/compare_page.dart';
+import 'package:myapp/views/favourite_page.dart';
 import 'package:myapp/views/home_page.dart';
 import 'package:myapp/views/quiz_page.dart';
 
@@ -43,8 +44,8 @@ class BottomNavBar extends StatelessWidget {
             }
             break;
           case 3:
-            if (selectedIndex != 2) {
-              navigateToPage(const ComparePage());
+            if (selectedIndex != 3) {
+              navigateToPage(const FavouritePage());
             }
             break;
           default:

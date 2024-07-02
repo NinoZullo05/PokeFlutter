@@ -12,8 +12,7 @@ class StyledText extends StatelessWidget {
   Widget build(BuildContext context) {
     final fontSize = style.fontSize ?? 0;
 
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: (textHeight - fontSize) / 2),
+    return SizedBox(
       height: fontSize,
       child: Text(
         text ?? "",
