@@ -18,34 +18,60 @@ class BottomNavBar extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     final unselectedItemColor = gray[300];
 
-    void navigateToPage(Widget page) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => page),
-      );
-    }
-
     return BottomNavigationBar(
       currentIndex: selectedIndex,
       onTap: (index) {
         switch (index) {
           case 0:
             if (selectedIndex != 0) {
-              navigateToPage(const HomePage());
+              Navigator.pushReplacement(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation1, animation2) =>
+                      const HomePage(),
+                  transitionDuration: Duration.zero,
+                  reverseTransitionDuration: Duration.zero,
+                ),
+              );
             }
             break;
           case 1:
             if (selectedIndex != 1) {
-              navigateToPage(const ComparePage());
+              Navigator.pushReplacement(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation1, animation2) =>
+                      const ComparePage(),
+                  transitionDuration: Duration.zero,
+                  reverseTransitionDuration: Duration.zero,
+                ),
+              );
             }
             break;
           case 2:
             if (selectedIndex != 2) {
-              navigateToPage(const QuizPage());
+              Navigator.pushReplacement(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation1, animation2) =>
+                      const QuizPage(),
+                  transitionDuration: Duration.zero,
+                  reverseTransitionDuration: Duration.zero,
+                ),
+              );
             }
             break;
           case 3:
             if (selectedIndex != 3) {
-              navigateToPage(const FavouritePage());
+              Navigator.pushReplacement(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation1, animation2) =>
+                      const FavouritePage(),
+                  transitionDuration: Duration.zero,
+                  reverseTransitionDuration: Duration.zero,
+                ),
+              );
             }
             break;
           default:
