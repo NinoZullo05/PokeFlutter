@@ -10,7 +10,8 @@ class FilterPopupWeightAndHeight extends StatefulWidget {
       _FilterPopupWeightAndHeightState();
 }
 
-class _FilterPopupWeightAndHeightState extends State<FilterPopupWeightAndHeight> {
+class _FilterPopupWeightAndHeightState
+    extends State<FilterPopupWeightAndHeight> {
   double _currentWeightValue = 20;
   int _currentHeightValue = 170;
 

@@ -4,7 +4,6 @@ import 'package:myapp/Database/database_helper.dart';
 import 'package:myapp/Models/favourite_pokemon.dart';
 import 'package:myapp/Models/pokemon_list_item.dart';
 import 'widgets/pokemon_list.dart';
-import 'widgets/random_floating_button.dart';
 import 'widgets/bottom_nav_bar.dart';
 import 'widgets/top_text.dart';
 import 'package:myapp/Utils/palette.dart';
@@ -40,7 +39,6 @@ class _FavouritePageState extends State<FavouritePage> {
     final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
-      floatingActionButton: const RandomFloatingButton(),
       bottomNavigationBar: const BottomNavBar(selectedIndex: 3),
       body: SingleChildScrollView(
         child: Column(
@@ -53,11 +51,10 @@ class _FavouritePageState extends State<FavouritePage> {
                 style: textTheme.displaySmall!.copyWith(
                   fontSize: 44.sp,
                 ),
-                textHeight: 44.sp,
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24.w),
+              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
               child: Text(
                 "This is the list of your favourite Pokémon! Favorite numbers: ${favoritePokemons.length}",
                 style: textTheme.bodyLarge!.copyWith(

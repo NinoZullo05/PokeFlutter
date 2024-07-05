@@ -5,7 +5,8 @@ class FilterPopupOrderBy extends StatefulWidget {
   final String initialValue;
   final Function(String) onChanged;
 
-  const FilterPopupOrderBy({super.key, 
+  const FilterPopupOrderBy({
+    super.key,
     required this.initialValue,
     required this.onChanged,
   });

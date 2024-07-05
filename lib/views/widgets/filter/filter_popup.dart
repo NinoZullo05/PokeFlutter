@@ -13,12 +13,12 @@ class FilterContent extends StatelessWidget {
   final Function(String) onOrderByChanged;
 
   const FilterContent({
-    super.key,
+    Key? key,
     required this.generations,
     required this.selectedGenerations,
     required this.onGenerationSelected,
     required this.onOrderByChanged,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class FilterContent extends StatelessWidget {
           const FilterPopupWeightAndHeight(),
           SizedBox(height: 32.h),
           FilterPopupOrderBy(
-            initialValue: 'A-Z', // Set initial value as needed
+            initialValue: 'A-Z',
             onChanged: onOrderByChanged,
           ),
         ],

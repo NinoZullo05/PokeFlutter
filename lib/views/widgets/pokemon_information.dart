@@ -10,15 +10,15 @@ import 'package:myapp/views/widgets/pokemon_information/pokemon_details.dart';
 class PokemonInformation extends StatefulWidget {
   final Pokemon pokemon;
 
-  const PokemonInformation({Key? key, required this.pokemon}) : super(key: key);
+  const PokemonInformation({super.key, required this.pokemon});
 
   @override
   _PokemonInformationState createState() => _PokemonInformationState();
 }
 
 class _PokemonInformationState extends State<PokemonInformation> {
-  bool isFavorite = false; 
-  late DatabaseHelper dbHelper; 
+  bool isFavorite = false;
+  late DatabaseHelper dbHelper;
 
   @override
   void initState() {
@@ -37,7 +37,8 @@ class _PokemonInformationState extends State<PokemonInformation> {
   @override
   Widget build(BuildContext context) {
     Color backgroundColor =
-        listPokemonTypeColor[widget.pokemon.typesList[0].toLowerCase()] ?? Colors.grey;
+        listPokemonTypeColor[widget.pokemon.typesList[0].toLowerCase()] ??
+            Colors.grey;
 
     return Scaffold(
       appBar: AppBar(
@@ -125,7 +126,7 @@ class _PokemonInformationState extends State<PokemonInformation> {
         imageUrl: widget.pokemon.urlSprite,
       ));
     }
-    
+
     setState(() {
       isFavorite = !isFavorite;
     });

@@ -22,7 +22,7 @@ class _GridItemState extends State<GridItem> {
   Pokemon? pokemon;
   bool _isLoading = true;
   Color? pokemonColor;
- // final bool _isDisposed = false;
+  // final bool _isDisposed = false;
 
   @override
   void initState() {
@@ -54,7 +54,7 @@ class _GridItemState extends State<GridItem> {
               );
             },
             child: Container(
-              height: 500.r, // Altezza modificata
+              height: 500.r, // Altezza del container
               decoration: BoxDecoration(
                 color: pokemonColor,
                 borderRadius: BorderRadius.circular(16.r),
@@ -68,7 +68,6 @@ class _GridItemState extends State<GridItem> {
                       "assets/pokeball.svg",
                       height: 88.r,
                       width: 88.r,
-                      // ignore: deprecated_member_use
                       color: Colors.white12,
                     ),
                   ),
@@ -85,20 +84,24 @@ class _GridItemState extends State<GridItem> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: typesList(pokemon!),
                                     ),
-                                    SizedBox(
-                                      height: 65.r,
-                                      width: 65.r,
-                                      child: Image.network(
-                                        pokemon!.urlSprite,
-                                        fit: BoxFit.cover,
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: SizedBox(
+                                        height: 65.r,
+                                        width: 65.r,
+                                        child: Image.network(
+                                          pokemon!.urlSprite,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -118,45 +121,47 @@ class _GridItemState extends State<GridItem> {
 
   List<Widget> typesList(Pokemon pokemon) {
     List<Widget> typesList = [];
+
     for (var i = 0; i < pokemon.typesList.length; i++) {
       if (i >= 1) {
-        typesList.add(const SizedBox(
-          height: 4,
-        ));
+        typesList.add(SizedBox(height: 4));
       }
+
       typesList.add(
         Container(
           decoration: BoxDecoration(
             color: gray[500]?.withOpacity(0.2),
             borderRadius: BorderRadius.circular(24.r),
           ),
-          padding: EdgeInsets.only(left: 2.w, top: 2, bottom: 2, right: 8.w),
+          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image(
                 image: AssetImage(
-                    "assets/types_icons/Pokémon_${pokemon.typesList[i].capitalize()}_Type_Icon.png"),
+                  "assets/types_icons/Pokémon_${pokemon.typesList[i].capitalize()}_Type_Icon.png",
+                ),
                 height: 15.r,
                 width: 15.r,
               ),
-              SizedBox(
-                width: 4.w,
+              SizedBox(width: 4.w),
+              Flexible(
+                child: Text(
+                  pokemon.typesList[i].capitalize(),
+                  style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                        color: Colors.white,
+                        fontSize: 10.sp,
+                      ),
+                ),
               ),
-              StyledText(
-                style: Theme.of(context)
-                    .textTheme
-                    .labelSmall!
-                    .copyWith(color: Colors.white),
-                textHeight: 16,
-                text: pokemon.typesList[i].capitalize(),
-              )
             ],
           ),
         ),
       );
     }
+
     return typesList;
   }
 

@@ -1,6 +1,8 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:myapp/Models/pokemon.dart';
+import 'package:myapp/views/widgets/pokemon_information.dart';
 import '../../Utils/palette.dart';
 import './top_text.dart';
 
@@ -22,10 +24,21 @@ class RandomFloatingButton extends StatelessWidget {
         style: Theme.of(context).textTheme.labelLarge!,
         textHeight: 20, // FIX
       ),
-      onPressed: () {
-        // ignore: avoid_print
-        print("Random button pressed!");
+      onPressed: () async {
+        Pokemon randomPokemon = await fetchRandomPokemon();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PokemonInformation(pokemon: randomPokemon),
+          ),
+        );
       },
     );
+  }
+
+  Future<Pokemon> fetchRandomPokemon() async {
+    final random = Random();
+    final randomId = random.nextInt(898) + 1; // Pokémon IDs range from 1 to 898
+    return await fetchPokemon(randomId);
   }
 }

@@ -10,16 +10,13 @@ class DatabaseHelper {
   Future<Database> get database async {
     if (_database != null) return _database!;
 
-    // If _database is null we instantiate it
     _database = await initDatabase();
     return _database!;
   }
 
   Future<Database> initDatabase() async {
-    // Path to the database
     String path = join(await getDatabasesPath(), 'favorite_pokemon.db');
 
-    // Create the database
     return await openDatabase(path, onCreate: (db, version) async {
       await db.execute('''
         CREATE TABLE $tableName(

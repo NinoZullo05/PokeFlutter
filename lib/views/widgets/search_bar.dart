@@ -123,6 +123,7 @@ class _SearchBarFState extends State<SearchBarF> {
                     ),
                   );
                 },
+                onTap: () => _openFilterPopup(context),
               ),
             ),
           ],
@@ -144,7 +145,13 @@ class _SearchBarFState extends State<SearchBarF> {
           onOrderByChanged: _handleOrderByChanged,
         );
       },
-    );
+    ).then((_) {
+      // Dopo che il filtro è stato chiuso, aggiorna i risultati
+      if (widget.searchController.text.isNotEmpty) {
+        widget.searchController.text =
+            widget.searchController.text; // Forza l'aggiornamento della ricerca
+      }
+    });
   }
 
   void _handleGenerationSelected(int index) {

@@ -4,14 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myapp/Models/pokemon_list_item.dart';
 import 'package:myapp/Utils/palette.dart';
+import 'package:myapp/views/widgets/bottom_nav_bar.dart';
+import 'package:myapp/views/widgets/pokemon_list.dart';
+import 'package:myapp/views/widgets/random_floating_button.dart';
 import 'package:myapp/views/widgets/search_bar.dart';
 import 'package:myapp/views/widgets/top_text.dart';
-import 'widgets/pokemon_list.dart';
-import 'widgets/random_floating_button.dart';
-import 'widgets/bottom_nav_bar.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -19,8 +19,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<PokemonListItem> pokemonList = [];
-  final List<PokemonListItem> filteredPokemonList = [];
+  List<PokemonListItem> filteredPokemonList = [];
   final TextEditingController searchController = TextEditingController();
+  List<int> selectedGenerations =
+      []; // Lista per memorizzare gli ID delle generazioni selezionate
 
   @override
   void initState() {
@@ -50,23 +52,60 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onSearchChanged() {
-    if (searchController.text.isNotEmpty) {
-      searchPokemon(searchController.text);
-    }
+    filterPokemonList();
   }
 
-  void searchPokemon(String query) {
+  void filterPokemonList() {
     setState(() {
-      filteredPokemonList.clear();
-      if (query.isNotEmpty) {
-        final filtered = pokemonList.where((pokemon) {
-          return pokemon.name.toLowerCase().contains(query.toLowerCase());
-        }).toList();
-        filteredPokemonList.addAll(filtered);
+      filteredPokemonList = pokemonList.where((pokemon) {
+        // Filtra per nome
+        final nameMatches = pokemon.name
+            .toLowerCase()
+            .contains(searchController.text.toLowerCase());
+        // Filtra per generazioni selezionate
+        final generationMatches = selectedGenerations.isEmpty ||
+            selectedGenerations.contains(getGenerationId(pokemon.url));
+        return nameMatches && generationMatches;
+      }).toList();
+    });
+  }
+
+  int getGenerationId(String url) {
+    // Esempio di come ottenere l'ID di generazione dalla URL
+    // Supponiamo che la URL sia nella forma "https://pokeapi.co/api/v2/pokemon-species/1/"
+    // e vogliamo ottenere l'ID di generazione (1 in questo caso)
+    final regex = RegExp(r"/api/v2/pokemon-species/(\d+)/$");
+    final match = regex.firstMatch(url);
+    if (match != null && match.groupCount >= 1) {
+      final generationId = int.parse(match.group(1)!);
+      // Implementa la logica per mappare l'ID della generazione in base ai tuoi requisiti
+      // Ad esempio:
+      // 1-151 -> Generazione 1
+      // 152-251 -> Generazione 2
+      // ...
+      // 810-898 -> Generazione 8
+      if (generationId >= 1 && generationId <= 151) {
+        return 1; // Generazione 1
+      } else if (generationId >= 152 && generationId <= 251) {
+        return 2; // Generazione 2
+      } else if (generationId >= 252 && generationId <= 386) {
+        return 3; // Generazione 3
+      }
+      // Aggiungi altri controlli per le altre generazioni secondo necessità
+    }
+    return 0; // Ritorna 0 o un valore di default se non riesce a estrarre l'ID della generazione
+  }
+
+  void handleGenerationSelected(int index) {
+    setState(() {
+      final generationId = index + 1; 
+      if (selectedGenerations.contains(generationId)) {
+        selectedGenerations.remove(generationId);
       } else {
-        filteredPokemonList.addAll(pokemonList);
+        selectedGenerations.add(generationId);
       }
     });
+    filterPokemonList();
   }
 
   @override
@@ -97,15 +136,32 @@ class _HomePageState extends State<HomePage> {
                     ?.copyWith(color: gray[400], height: (24 / 16)),
               ),
             ),
-            SizedBox(
-              height: 16.h,
-            ),
+            SizedBox(height: 16.h),
             SearchBarF(
               searchController: searchController,
             ),
-            SizedBox(
-              height: 16.h,
-            ),
+            SizedBox(height: 16.h),
+            // Mostra le generazioni selezionate
+            selectedGenerations.isEmpty
+                ? SizedBox.shrink()
+                : Container(
+                    padding: EdgeInsets.symmetric(horizontal: 24.w),
+                    child: Wrap(
+                      spacing: 8.w,
+                      children: selectedGenerations
+                          .map((generationId) => Chip(
+                                label: Text('Generation $generationId'),
+                                onDeleted: () {
+                                  setState(() {
+                                    selectedGenerations.remove(generationId);
+                                    filterPokemonList(); // Aggiorna la lista filtrata dopo la rimozione
+                                  });
+                                },
+                              ))
+                          .toList(),
+                    ),
+                  ),
+            SizedBox(height: 16.h),
             PokemonList(
               pokemonList: filteredPokemonList,
             ),
