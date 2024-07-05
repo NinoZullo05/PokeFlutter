@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Build and Release new apk
+    name: Build and Release APKs
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -16,23 +16,29 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v2
         with:
-          distribution: 'zulu'
-          java-version: '11'
+          distribution: "zulu"
+          java-version: "11"
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
+          channel: "stable"
 
       - name: Flutter pub get
         run: flutter pub get
 
-      - name: Build APK
+      - name: Build Release APK
         run: flutter build apk --release --split-per-abi
 
+      - name: Build Debug APK
+        run: flutter build apk --debug --split-per-abi
+
       - name: Push to Releases
+        id: upload-release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/app/outputs/apk/release/*"
+          artifacts: |
+            build/app/outputs/apk/release/*
+            build/app/outputs/apk/debug/*
           tag: v0.0.2
-          token: ${{ secrets.TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
