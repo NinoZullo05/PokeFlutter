@@ -53,7 +53,7 @@ class _GridItemState extends State<GridItem> {
               );
             },
             child: Container(
-              height: 500.r, 
+              height: 500.r,
               decoration: BoxDecoration(
                 color: pokemonColor,
                 borderRadius: BorderRadius.circular(16.r),
@@ -123,7 +123,8 @@ class _GridItemState extends State<GridItem> {
 
     for (var i = 0; i < pokemon.typesList.length; i++) {
       if (i >= 1) {
-        typesList.add(const SizedBox(height: 4));
+        typesList.add(SizedBox(
+            height: 3.h)); 
       }
 
       typesList.add(
@@ -132,7 +133,7 @@ class _GridItemState extends State<GridItem> {
             color: gray[500]?.withOpacity(0.2),
             borderRadius: BorderRadius.circular(24.r),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2),
+          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -142,16 +143,16 @@ class _GridItemState extends State<GridItem> {
                 image: AssetImage(
                   "assets/types_icons/Pokémon_${pokemon.typesList[i].capitalize()}_Type_Icon.png",
                 ),
-                height: 12.r,
+                height: 12.r, 
                 width: 12.r,
               ),
-              SizedBox(width: 4.w),
+              SizedBox(width: 3.w),
               Flexible(
                 child: Text(
                   pokemon.typesList[i].capitalize(),
                   style: Theme.of(context).textTheme.labelSmall!.copyWith(
                         color: Colors.white,
-                        fontSize: 10.sp,
+                        fontSize: 10.sp, 
                       ),
                 ),
               ),

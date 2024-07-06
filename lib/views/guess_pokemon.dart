@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:myapp/Utils/capitalize.dart';
+
 class GuessPokemon extends StatefulWidget {
   const GuessPokemon({super.key});
 
@@ -68,7 +70,6 @@ class _GuessPokemonState extends State<GuessPokemon> {
 
     setState(() {
       _pokemonOptions = options.toList()..shuffle();
-      _isLoading = false;
     });
   }
 
@@ -177,7 +178,7 @@ class _GuessPokemonState extends State<GuessPokemon> {
                       ),
                       child: Center(
                         child: Text(
-                          name,
+                          name.capitalize(),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 18.sp,
@@ -211,6 +212,9 @@ class _GuessPokemonState extends State<GuessPokemon> {
                     ),
                   ),
                 ),
+            ] else if (_isLoading) ...[
+              SizedBox(height: 20.h),
+              const CircularProgressIndicator(),
             ],
           ],
         ),
