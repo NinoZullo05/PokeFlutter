@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:myapp/views/widgets/filter/filter_popup.dart'; // Importa il nuovo widget FilterContent
+import 'package:myapp/views/widgets/filter/filter_popup.dart';
 import '../../Utils/palette.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -146,10 +146,8 @@ class _SearchBarFState extends State<SearchBarF> {
         );
       },
     ).then((_) {
-      // Dopo che il filtro è stato chiuso, aggiorna i risultati
       if (widget.searchController.text.isNotEmpty) {
-        widget.searchController.text =
-            widget.searchController.text; // Forza l'aggiornamento della ricerca
+        widget.searchController.text = widget.searchController.text;
       }
     });
   }

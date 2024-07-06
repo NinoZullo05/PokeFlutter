@@ -22,7 +22,6 @@ class _GridItemState extends State<GridItem> {
   Pokemon? pokemon;
   bool _isLoading = true;
   Color? pokemonColor;
-  // final bool _isDisposed = false;
 
   @override
   void initState() {
@@ -54,7 +53,7 @@ class _GridItemState extends State<GridItem> {
               );
             },
             child: Container(
-              height: 500.r, // Altezza del container
+              height: 500.r, 
               decoration: BoxDecoration(
                 color: pokemonColor,
                 borderRadius: BorderRadius.circular(16.r),
@@ -77,7 +76,7 @@ class _GridItemState extends State<GridItem> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         _header(context),
-                        const SizedBox(height: 4),
+                        SizedBox(height: 4.h),
                         Expanded(
                           child: SingleChildScrollView(
                             child: Column(
@@ -96,11 +95,11 @@ class _GridItemState extends State<GridItem> {
                                     Align(
                                       alignment: Alignment.center,
                                       child: SizedBox(
-                                        height: 65.r,
-                                        width: 65.r,
+                                        height: 50.r,
+                                        width: 50.r,
                                         child: Image.network(
                                           pokemon!.urlSprite,
-                                          fit: BoxFit.cover,
+                                          fit: BoxFit.contain,
                                         ),
                                       ),
                                     ),
@@ -124,7 +123,7 @@ class _GridItemState extends State<GridItem> {
 
     for (var i = 0; i < pokemon.typesList.length; i++) {
       if (i >= 1) {
-        typesList.add(SizedBox(height: 4));
+        typesList.add(const SizedBox(height: 4));
       }
 
       typesList.add(
@@ -143,8 +142,8 @@ class _GridItemState extends State<GridItem> {
                 image: AssetImage(
                   "assets/types_icons/Pokémon_${pokemon.typesList[i].capitalize()}_Type_Icon.png",
                 ),
-                height: 15.r,
-                width: 15.r,
+                height: 12.r,
+                width: 12.r,
               ),
               SizedBox(width: 4.w),
               Flexible(
@@ -173,14 +172,15 @@ class _GridItemState extends State<GridItem> {
           style: Theme.of(context)
               .textTheme
               .bodySmall!
-              .copyWith(color: Colors.white),
+              .copyWith(color: Colors.white, fontSize: 16.sp),
           text: pokemon?.name.capitalize(),
           textHeight: 16,
         ),
         StyledText(
-          style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                color: Colors.white,
-              ),
+          style: Theme.of(context)
+              .textTheme
+              .bodySmall!
+              .copyWith(color: Colors.white, fontSize: 12.sp),
           text: "#${pokemon?.id.toString().padLeft(3, "0")}",
           textHeight: 16,
         ),
