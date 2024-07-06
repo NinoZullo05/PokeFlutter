@@ -7,11 +7,11 @@ class FilterPopupGenerations extends StatelessWidget {
   final Function(int) onGenerationSelected;
 
   const FilterPopupGenerations({
-    Key? key,
+    super.key,
     required this.generations,
     required this.selectedGenerations,
     required this.onGenerationSelected,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

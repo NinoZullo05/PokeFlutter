@@ -13,12 +13,12 @@ class FilterContent extends StatelessWidget {
   final Function(String) onOrderByChanged;
 
   const FilterContent({
-    Key? key,
+    super.key,
     required this.generations,
     required this.selectedGenerations,
     required this.onGenerationSelected,
     required this.onOrderByChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

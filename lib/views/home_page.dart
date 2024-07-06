@@ -11,7 +11,7 @@ import 'package:myapp/views/widgets/search_bar.dart';
 import 'package:myapp/views/widgets/top_text.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -143,7 +143,7 @@ class _HomePageState extends State<HomePage> {
             SizedBox(height: 16.h),
             // Mostra le generazioni selezionate
             selectedGenerations.isEmpty
-                ? SizedBox.shrink()
+                ? const SizedBox.shrink()
                 : Container(
                     padding: EdgeInsets.symmetric(horizontal: 24.w),
                     child: Wrap(

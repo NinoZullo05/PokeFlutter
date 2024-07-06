@@ -138,7 +138,7 @@ class _PokemonInformationState extends State<PokemonInformation> {
               ? '${widget.pokemon.name.capitalize()} aggiunto ai preferiti.'
               : '${widget.pokemon.name.capitalize()} rimosso dai preferiti.',
         ),
-        duration: Duration(seconds: 1),
+        duration: const Duration(seconds: 1),
       ),
     );
   }

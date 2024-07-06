@@ -9,7 +9,7 @@ import 'widgets/top_text.dart';
 import 'package:myapp/Utils/palette.dart';
 
 class FavouritePage extends StatefulWidget {
-  const FavouritePage({Key? key}) : super(key: key);
+  const FavouritePage({super.key});
 
   @override
   State<FavouritePage> createState() => _FavouritePageState();
