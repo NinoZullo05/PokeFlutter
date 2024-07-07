@@ -2,7 +2,8 @@
 
 [![My Skills](https://skillicons.dev/icons?i=flutter,figma,dart,vscode&perline=4)](https://skillicons.dev)
 
-PokeFlutter is an interactive application dedicated to exploring the world of Pokémon. It leverages Flutter and integrates seamlessly with the PokéAPI to provide a comprehensive experience centered around your favorite creatures.
+Dive into the world of Pokémon with this interactive project! We fetch data directly from the PokéAPI to bring you a wealth of information about your favorite creatures.
+
 
 ## Features
 
