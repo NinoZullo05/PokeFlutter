@@ -17,7 +17,7 @@ Dive into the world of Pokémon with this interactive project! We fetch data dir
 
 - **Favorite Pokémon**: Mark your favorite Pokémon for quick access and personalized lists.
 
-- ** ❌ Advanced Search and Filtering**: Find Pokémon quickly with advanced search and filtering options based on type, region, and more. 
+- **❌ Advanced Search and Filtering**: Find Pokémon quickly with advanced search and filtering options based on type, region, and more. 
 
 - **Interactive UI**: Enjoy an intuitive and user-friendly interface designed to enhance your exploration of Pokémon.
 
